@@ -6,3 +6,12 @@ class FechasMixin(models.Model):
 
     class Meta:
         abstract = True
+
+class Productos(models.Model):
+    nombre = models.CharField(max_length=150)
+    tipo = models.CharField(max_length=20)
+    dosis = models.DecimalField(max_digits=5, decimal_places=2)
+    frecuencia = models.CharField(max_length=150)
+
+    class Meta:
+        abstract = True
