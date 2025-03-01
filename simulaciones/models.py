@@ -3,11 +3,11 @@ from cultivos.models import Campo, Cultivo, Fertilizantes
 from utilidades.models import FechasMixin
 
 class CondicionesAmbientales(FechasMixin):
-    temperatura = models.DecimalField(max_digits=5, decimal_places=2)  # °C
-    humedad = models.DecimalField(max_digits=5, decimal_places=2)  # %
-    precipitacion = models.DecimalField(max_digits=5, decimal_places=2)  # mm
-    viento = models.DecimalField(max_digits=5, decimal_places=2)  # km/h
-    ph_agua = models.DecimalField(max_digits=3, decimal_places=1)  # pH escala 0-14
+    temperatura = models.DecimalField(max_digits=5, decimal_places=2) 
+    humedad = models.DecimalField(max_digits=5, decimal_places=2)  
+    precipitacion = models.DecimalField(max_digits=5, decimal_places=2)  
+    viento = models.DecimalField(max_digits=5, decimal_places=2) 
+    ph_agua = models.DecimalField(max_digits=3, decimal_places=1)  
     fertilizante = models.ForeignKey(Fertilizantes, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):

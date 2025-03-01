@@ -10,6 +10,7 @@ class CampoAdmin(admin.ModelAdmin):
 @admin.register(Cultivo)
 class CultivoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'campo', 'tipo_suelo', 'temporada_ideal') 
+    list_filter = ("tipo_suelo", "temporada_ideal", "campo")
     search_fields = ('nombre','campo__nombre')
 
 @admin.register(Plagas)

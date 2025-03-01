@@ -17,32 +17,28 @@ class Campo(FechasMixin):
 
 class Cultivo(FechasMixin):
     
-    TIPO_DE_SUELO_CHOICES = [
-        (1, "Arcilloso"),
-        (2, "Arenoso"),
-        (3, "Limoso"),
-        (4, "Franco"),
-        (5, "Pedregoso"),
-    ]
-    
-    TEMPORADA_IDEAL_CHOICES = [
-        (1, "Primavera"),
-        (2, "Verano"),
-        (3, "Otoño"),
-        (4, "Invierno"), 
-    ]
-    
+    class TipoDeSuelo(models.IntegerChoices):
+        ARCILLOSO = 1, "Arcilloso"
+        ARENOSO = 2, "Arenoso"
+        LIMOSO = 3, "Limoso"
+        FRANCO = 4, "Franco"
+        PEDREGOSO = 5, "Pedregoso"
+
+    class TemporadaIdeal(models.IntegerChoices):
+        PRIMAVERA = 1, "Primavera"
+        VERANO = 2, "Verano"
+        OTONO = 3, "Otoño"
+        INVIERNO = 4, "Invierno"
+
     campo = models.ForeignKey(Campo, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=150)
-    tipo_suelo = models.IntegerField(choices=TIPO_DE_SUELO_CHOICES)
-    temporada_ideal = models.IntegerField(choices=TEMPORADA_IDEAL_CHOICES)
+    tipo_suelo = models.IntegerField(choices=TipoDeSuelo.choices)
+    temporada_ideal = models.IntegerField(choices=TemporadaIdeal.choices)
     requerimentos = models.TextField()
- 
-
 
     def __str__(self):
         return f"{self.nombre} - {self.get_tipo_suelo_display()} - {self.get_temporada_ideal_display()}"
-    
+
     class Meta:
         db_table = "cultivos"
         verbose_name = "Cultivo"
