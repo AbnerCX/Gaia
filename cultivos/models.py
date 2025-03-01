@@ -1,5 +1,5 @@
 from django.db import models
-from utilidades.models import FechasMixin
+from utilidades.models import FechasMixin, Productos
 
 class Campo(FechasMixin):  
     nombre = models.CharField(max_length=150)
@@ -28,3 +28,39 @@ class Cultivo(FechasMixin):
         db_table = "cultivos"
         verbose_name = "Cultivo"
         verbose_name_plural = "Cultivos"
+
+class Plagas(FechasMixin):
+    cultivo = models.ForeignKey(Cultivo, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=150)
+    efectos = models.TextField()
+    tratamiento = models.TextField()
+
+    def __str__(self):
+        return f"{self.nombre} en {self.cultivo.nombre}"
+    
+    class Meta:
+        db_table = "plagas"
+        verbose_name = "Plaga"
+        verbose_name_plural = "Plagas"
+
+class Pesticidas(FechasMixin, Productos):
+    cultivo = models.ForeignKey(Cultivo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.nombre} - ({self.tipo} para {self.cultivo.nombre})"
+    
+    class Meta:
+        db_table = "pesticida"
+        verbose_name = "Pesticida"
+        verbose_name_plural = "Pesticidas"
+
+class Fertilizantes(FechasMixin, Productos):
+    cultivo = models.ForeignKey(Cultivo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.nombre} - ({self.tipo} para {self.cultivo.nombre})"
+    
+    class Meta:
+        db_table = "fertilizante"
+        verbose_name = "Fertilizante"
+        verbose_name_plural = "Fertilizantes"
