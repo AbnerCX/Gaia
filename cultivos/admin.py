@@ -9,8 +9,8 @@ class CampoAdmin(admin.ModelAdmin):
 
 @admin.register(Cultivo)
 class CultivoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'tipo_suelo', 'temporada_ideal') 
-    search_fields = ('nombre',)
+    list_display = ('nombre', 'campo', 'tipo_suelo', 'temporada_ideal') 
+    search_fields = ('nombre','campo__nombre')
 
 @admin.register(Plagas)
 class PlagasAdmin(admin.ModelAdmin):
