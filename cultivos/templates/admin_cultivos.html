@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Administrar Cultivos</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <h1>Administrar Cultivos</h1>
+
+    <ul>
+        {% for cultivo in cultivos %}
+            <li>
+                <strong>{{ cultivo }}</strong> <br>
+                Campo: {{ cultivo.campo.nombre }} <br>
+                Tipo de suelo: {{ cultivo.tipo_suelo }} <br>
+                Temporada ideal: {{ cultivo.temporada_ideal }} <br>
+                Requerimientos: {{ cultivo.requerimentos }} <br>
+
+                <form method="POST" action="{% url 'admin_cultivos' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="editar_cultivo_id" value="{{ cultivo.id }}">
+                    <button type="submit">Editar este cultivo</button>
+                </form>
+
+                <form method="POST" action="{% url 'admin_cultivos' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="eliminar_cultivo_id" value="{{ cultivo.id }}">
+                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este cultivo?');">Eliminar este cultivo</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No se han creado cultivos.</li>
+        {% endfor %}
+    </ul>
+
+    <h2> 
+        {% if editing %}
+            Editar Cultivo
+        {% else %}
+            Crear Nuevo Cultivo
+        {% endif %}
+    </h2>
+
+    <form method="POST" action="{% url 'admin_cultivos' %}">
+        
+        {% csrf_token %}
+
+        {% if cultivo_a_editar %}
+            <input type="hidden" name="cultivo_id" value="{{ cultivo_a_editar.id }}">
+        {% endif %}
+        {{ form.as_p }}
+        <button type="submit"> 
+            {% if editing %}
+                Guardar cambios
+            {% else %}
+                Crear cultivo
+            {% endif %}
+        </button>
+    </form>
+
+    {% if editing %}
+        <a href="{% url 'admin_cultivos' %}">
+            <button type="button">Cancelar</button>
+        </a>
+    {% endif %}
+</body>
+</html>

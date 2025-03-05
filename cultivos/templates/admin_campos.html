@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Administrar Campos</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <h1>Administrar Campos</h1>
+
+    <h2>Mis Campos</h2>
+    <ul>
+        {% for campo in campos %}
+            <li>
+                <div>
+                    <strong>{{ campo.nombre }}</strong> <br>
+                    Latitud: {{ campo.latitud }}, Longitud: {{ campo.longitud }} <br>
+                    Tamaño: {{ campo.tamano }} ha <br>
+                    <em>Creado:</em> {{ campo.creado }} <br>
+                    <em>Última actualización:</em> {{ campo.ultima_actualizacion }} <br>
+                
+                    <!-- Formulario para editar campo -->
+                    <form method="POST" action="{% url 'admin_campos' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="campo_id" value="{{ campo.id }}">
+                        <button type="submit">Editar este campo</button>
+                    </form>
+                    
+                    <!-- Formulario para eliminar campo -->
+                    <form method="POST" action="{% url 'admin_campos' %}" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="eliminar_campo_id" value="{{ campo.id }}">
+                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este campo?');">Eliminar este campo</button>
+                    </form>
+                </div>
+            </li>
+        {% empty %}
+            <li>No se han creado campos.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Formulario para crear o editar campo -->
+    <form method="POST" action="{% url 'admin_campos' %}">
+        <h2> 
+            {% if editing %}
+                Editar Campo
+            {% else %}
+                Crear Nuevo Campo
+            {% endif %}
+        </h2>   
+        {% csrf_token %}
+        
+        <!-- Incluir el ID del campo si está en modo de edición -->
+        {% if campo_a_editar %}
+            <input type="hidden" name="campo_id" value="{{ campo_a_editar.id }}">
+        {% endif %}
+        
+        {{ form.as_p }}
+        <button type="submit"> 
+            {% if editing %}
+                Guardar cambios
+            {% else %}
+                Crear campo
+            {% endif %}
+        </button>
+    </form>
+
+    <!-- Botón para cancelar la edición -->
+    {% if editing %}
+        <form method="GET" action="{% url 'admin_campos' %}">
+            <button type="submit">Cancelar edición</button>
+        </form>
+    {% endif %}
+    
+</body>
+</html>
