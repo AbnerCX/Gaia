@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaia</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'login' %}">Iniciar Sesion</a></li>
+            <li><a href="{% url 'registrarse' %}">Registrarse</a></li>
+        </ul>
+    </nav>
+
+    <h1>Bienvenido a Gaia!!!</h1>
+
+    {% if user.is_authenticated %}
+        
+        <p>Bienvenido, {{ user.username }}!</p>
+        
+        <a href="{% url 'admin_campos' %}">Administrar mis campos</a> <br>
+
+        <a href="{% url 'admin_cultivos' %}">Administrar mis cultivos</a>
+         
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Cerrar sesión</button>
+        </form>
+
+    {% else %}
+        
+        <a href="{% url 'login' %}">Iniciar sesión</a>
+        
+    {% endif %}
+
+</body>
+</html>

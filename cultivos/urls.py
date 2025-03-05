@@ -1,0 +1,14 @@
+
+from django.urls import path
+from django.contrib.auth.views import LogoutView 
+from .views import home, registrarse, login_vista, crear_campo, admin_campos, admin_cultivos
+
+urlpatterns = [
+    path('', home, name='home'),
+    path('registrarse/', registrarse, name='registrarse'),
+    path('login/', login_vista, name='login'),
+    path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
+    path('admin_campos/', admin_campos, name='admin_campos'),
+    path('crear_campo/', crear_campo, name='crear_campo'),
+    path('admin_cultivos/', admin_cultivos, name='admin_cultivos'),
+]

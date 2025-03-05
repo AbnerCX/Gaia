@@ -1,0 +1,22 @@
+<form method="POST">
+    <h1>Iniciar Sesion</h1>
+    
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    {% if form.errors %}
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    <button type="submit">Iniciar sesion</button>
+</form>
+
+<p>¿No tienes una cuenta? 
+    <a href="{% url 'registrarse' %}">Registrate aqui</a>
+</p>
