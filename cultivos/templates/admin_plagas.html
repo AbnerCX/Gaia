@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Administrar Plagas</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <h1>Administrar Plagas</h1>
+
+    <ul>
+        {% for plaga in plagas %}
+            <li>
+                <strong>{{ plaga.nombre }}</strong> <br>
+                Cultivo afectado: {{ plaga.cultivo.nombre }} <br>
+                Efectos: {{ plaga.efectos }} <br>
+                Tratamiento: {{ plaga.tratamiento }} <br>
+
+                <!-- Botón para editar la plaga -->
+                <form method="POST" action="{% url 'admin_plagas' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="editar_plaga_id" value="{{ plaga.id }}">
+                    <button type="submit">Editar esta plaga</button>
+                </form>
+
+                <!-- Botón para eliminar la plaga -->
+                <form method="POST" action="{% url 'admin_plagas' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="eliminar_plaga_id" value="{{ plaga.id }}">
+                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esta plaga?');">Eliminar esta plaga</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No se han registrado plagas.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>
+        {% if editing %}
+            Editar Plaga
+        {% else %}
+            Crear Nueva Plaga
+        {% endif %}
+    </h2>
+
+    <!-- Formulario para crear o editar plagas -->
+    <form method="POST" action="{% url 'admin_plagas' %}">
+        {% csrf_token %}
+
+        <!-- Campo oculto para almacenar el ID de la plaga en modo edición -->
+        {% if plaga_a_editar %}
+            <input type="hidden" name="plaga_id" value="{{ plaga_a_editar.id }}">
+        {% endif %}
+
+        {{ form.as_p }}
+        <button type="submit"> 
+            {% if editing %}
+                Guardar cambios
+            {% else %}
+                Crear plaga
+            {% endif %}
+        </button>
+    </form>
+
+    <!-- Botón de cancelar en modo edición -->
+    {% if editing %}
+        <a href="{% url 'admin_plagas' %}">
+            <button type="button">Cancelar</button>
+        </a>
+    {% endif %}
+</body>
+</html>

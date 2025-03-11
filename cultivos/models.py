@@ -59,7 +59,7 @@ class PlanificacionCultivo(FechasMixin):
     class EstadoPlanificacion(models.IntegerChoices):
         PENDIENTE = 1, "Pendiente"
         EN_PROCESO = 2, "En proceso"
-        COMPRETADA = 3, "Completada"
+        COMPLETADA = 3, "Completada"
         CANCELADA = 4, "Cancelada"
 
     campo = models.ForeignKey(Campo, on_delete=models.CASCADE)
@@ -120,3 +120,5 @@ class Fertilizantes(FechasMixin, Productos):
         db_table = "fertilizante"
         verbose_name = "Fertilizante"
         verbose_name_plural = "Fertilizantes"
+
+

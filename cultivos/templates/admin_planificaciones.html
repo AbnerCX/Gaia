@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Administrar Planificaciones</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <h1>Administrar Planificaciones de Cultivo</h1>
+
+    <ul>
+        {% for planificacion in planificaciones %}
+            <li>
+                <strong>{{ planificacion }}</strong> <br>
+                Campo: {{ planificacion.campo.nombre }} <br>
+                Cultivo: {{ planificacion.cultivo.nombre }} <br>
+                Fecha de plantación: {{ planificacion.fecha_plantacion }} <br>
+                Fecha de cosecha: {{ planificacion.fecha_cosecha }} <br>
+                Estado: {{ planificacion.get_estado_display }} <br>
+
+                <form method="POST" action="{% url 'admin_planificaciones' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="editar_planificacion_id" value="{{ planificacion.id }}">
+                    <button type="submit">Editar esta planificación</button>
+                </form>
+
+                <form method="POST" action="{% url 'admin_planificaciones' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="eliminar_planificacion_id" value="{{ planificacion.id }}">
+                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esta planificación?');">Eliminar esta planificación</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No se han creado planificaciones.</li>
+        {% endfor %}
+    </ul>
+
+    <h2> 
+        {% if editing %}
+            Editar Planificación
+        {% else %}
+            Crear Nueva Planificación
+        {% endif %}
+    </h2>
+
+    <form method="POST" action="{% url 'admin_planificaciones' %}">
+        
+        {% csrf_token %}
+
+        {% if planificacion_a_editar %}
+            <input type="hidden" name="planificacion_id" value="{{ planificacion_a_editar.id }}">
+        {% endif %}
+        {{ form.as_p }}
+        <button type="submit"> 
+            {% if editing %}
+                Guardar cambios
+            {% else %}
+                Crear planificación
+            {% endif %}
+        </button>
+    </form>
+
+    {% if editing %}
+        <a href="{% url 'admin_planificaciones' %}">
+            <button type="button">Cancelar</button>
+        </a>
+    {% endif %}
+</body>
+</html>

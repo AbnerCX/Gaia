@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Administrar Fertilizantes</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <h1>Administrar Fertilizantes</h1>
+
+    <ul>
+        {% for fertilizante in fertilizantes %}
+            <li>
+                <strong>{{ fertilizante.nombre }}</strong> <br>
+                Tipo: {{ fertilizante.tipo }} <br>
+                Dosis: {{ fertilizante.dosis }} <br>
+                Frecuencia: {{ fertilizante.get_frecuencia_display }} <br>
+                Cultivo: {{ fertilizante.cultivo.nombre }} <br>
+
+                <form method="POST" action="{% url 'admin_fertilizantes' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="editar_fertilizante_id" value="{{ fertilizante.id }}">
+                    <button type="submit">Editar este fertilizante</button>
+                </form>
+
+                <form method="POST" action="{% url 'admin_fertilizantes' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="eliminar_fertilizante_id" value="{{ fertilizante.id }}">
+                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este fertilizante?');">Eliminar este fertilizante</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No se han creado fertilizantes.</li>
+        {% endfor %}
+    </ul>
+
+    <h2> 
+        {% if editing %}
+            Editar Fertilizante
+        {% else %}
+            Crear Nuevo Fertilizante
+        {% endif %}
+    </h2>
+
+    <form method="POST" action="{% url 'admin_fertilizantes' %}">
+        
+        {% csrf_token %}
+
+        {% if fertilizante_a_editar %}
+            <input type="hidden" name="fertilizante_id" value="{{ fertilizante_a_editar.id }}">
+        {% endif %}
+        {{ form.as_p }}
+        <button type="submit"> 
+            {% if editing %}
+                Guardar cambios
+            {% else %}
+                Crear fertilizante
+            {% endif %}
+        </button>
+    </form>
+
+    {% if editing %}
+        <a href="{% url 'admin_fertilizantes' %}">
+            <button type="button">Cancelar</button>
+        </a>
+    {% endif %}
+</body>
+</html>

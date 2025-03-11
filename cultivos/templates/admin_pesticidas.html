@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Administrar Pesticidas</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+    <h1>Administrar Pesticidas</h1>
+
+    <ul>
+        {% for pesticida in pesticidas %}
+            <li>
+                <strong>{{ pesticida.nombre }}</strong> <br>
+                Tipo: {{ pesticida.tipo }} <br>
+                Dosis: {{ pesticida.dosis }} <br>
+                Frecuencia: {{ pesticida.get_frecuencia_display }} <br>
+                Cultivo: {{ pesticida.cultivo.nombre }} <br>
+
+                <form method="POST" action="{% url 'admin_pesticidas' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="editar_pesticida_id" value="{{ pesticida.id }}">
+                    <button type="submit">Editar este pesticida</button>
+                </form>
+
+                <form method="POST" action="{% url 'admin_pesticidas' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="eliminar_pesticida_id" value="{{ pesticida.id }}">
+                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este pesticida?');">Eliminar este pesticida</button>
+                </form>
+            </li>
+        {% empty %}
+            <li>No se han creado pesticidas.</li>
+        {% endfor %}
+    </ul>
+
+    <h2> 
+        {% if editing %}
+            Editar Pesticida
+        {% else %}
+            Crear Nuevo Pesticida
+        {% endif %}
+    </h2>
+
+    <form method="POST" action="{% url 'admin_pesticidas' %}">
+        
+        {% csrf_token %}
+
+        {% if pesticida_a_editar %}
+            <input type="hidden" name="pesticida_id" value="{{ pesticida_a_editar.id }}">
+        {% endif %}
+        {{ form.as_p }}
+        <button type="submit"> 
+            {% if editing %}
+                Guardar cambios
+            {% else %}
+                Crear pesticida
+            {% endif %}
+        </button>
+    </form>
+
+    {% if editing %}
+        <a href="{% url 'admin_pesticidas' %}">
+            <button type="button">Cancelar</button>
+        </a>
+    {% endif %}
+</body>
+</html>
