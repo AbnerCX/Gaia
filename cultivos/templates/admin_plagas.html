@@ -16,7 +16,7 @@
         {% for plaga in plagas %}
             <li>
                 <strong>{{ plaga.nombre }}</strong> <br>
-                Cultivo afectado: {{ plaga.cultivo.nombre }} <br>
+                Campo afectado: {{ plaga.cultivo.campo.nombre }} <br>  <!-- Cambiado para mostrar el campo -->
                 Efectos: {{ plaga.efectos }} <br>
                 Tratamiento: {{ plaga.tratamiento }} <br>
 
@@ -66,7 +66,6 @@
         </button>
     </form>
 
-    <!-- Botón de cancelar en modo edición -->
     {% if editing %}
         <a href="{% url 'admin_plagas' %}">
             <button type="button">Cancelar</button>

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrar Fertilizantes</title>
 </head>
 <body>
@@ -19,14 +21,16 @@
                 Tipo: {{ fertilizante.tipo }} <br>
                 Dosis: {{ fertilizante.dosis }} <br>
                 Frecuencia: {{ fertilizante.get_frecuencia_display }} <br>
-                Cultivo: {{ fertilizante.cultivo.nombre }} <br>
+                Campo: {{ fertilizante.campo.nombre }} <br> <!-- Cambié 'cultivo' por 'campo' -->
 
+                <!-- Formulario para editar fertilizante -->
                 <form method="POST" action="{% url 'admin_fertilizantes' %}">
                     {% csrf_token %}
                     <input type="hidden" name="editar_fertilizante_id" value="{{ fertilizante.id }}">
                     <button type="submit">Editar este fertilizante</button>
                 </form>
 
+                <!-- Formulario para eliminar fertilizante -->
                 <form method="POST" action="{% url 'admin_fertilizantes' %}" style="display:inline;">
                     {% csrf_token %}
                     <input type="hidden" name="eliminar_fertilizante_id" value="{{ fertilizante.id }}">
@@ -38,7 +42,7 @@
         {% endfor %}
     </ul>
 
-    <h2> 
+    <h2>
         {% if editing %}
             Editar Fertilizante
         {% else %}
@@ -46,15 +50,19 @@
         {% endif %}
     </h2>
 
+    <!-- Formulario para crear o editar fertilizante -->
     <form method="POST" action="{% url 'admin_fertilizantes' %}">
-        
         {% csrf_token %}
-
+        
+        <!-- Si estamos editando, enviamos el ID del fertilizante para modificar -->
         {% if fertilizante_a_editar %}
             <input type="hidden" name="fertilizante_id" value="{{ fertilizante_a_editar.id }}">
         {% endif %}
+        
+        <!-- Mostrar el formulario del objeto Fertilizante -->
         {{ form.as_p }}
-        <button type="submit"> 
+        
+        <button type="submit">
             {% if editing %}
                 Guardar cambios
             {% else %}

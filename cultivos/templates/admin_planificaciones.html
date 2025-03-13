@@ -15,19 +15,21 @@
     <ul>
         {% for planificacion in planificaciones %}
             <li>
-                <strong>{{ planificacion }}</strong> <br>
+                <strong>Planificación {{ forloop.counter }}</strong> <br>
                 Campo: {{ planificacion.campo.nombre }} <br>
                 Cultivo: {{ planificacion.cultivo.nombre }} <br>
                 Fecha de plantación: {{ planificacion.fecha_plantacion }} <br>
                 Fecha de cosecha: {{ planificacion.fecha_cosecha }} <br>
                 Estado: {{ planificacion.get_estado_display }} <br>
 
+                <!-- Botón para editar la planificación -->
                 <form method="POST" action="{% url 'admin_planificaciones' %}">
                     {% csrf_token %}
                     <input type="hidden" name="editar_planificacion_id" value="{{ planificacion.id }}">
                     <button type="submit">Editar esta planificación</button>
                 </form>
 
+                <!-- Botón para eliminar la planificación -->
                 <form method="POST" action="{% url 'admin_planificaciones' %}" style="display:inline;">
                     {% csrf_token %}
                     <input type="hidden" name="eliminar_planificacion_id" value="{{ planificacion.id }}">
@@ -48,13 +50,14 @@
     </h2>
 
     <form method="POST" action="{% url 'admin_planificaciones' %}">
-        
         {% csrf_token %}
-
+        
         {% if planificacion_a_editar %}
             <input type="hidden" name="planificacion_id" value="{{ planificacion_a_editar.id }}">
         {% endif %}
+        
         {{ form.as_p }}
+        
         <button type="submit"> 
             {% if editing %}
                 Guardar cambios

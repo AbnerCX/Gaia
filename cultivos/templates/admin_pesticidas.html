@@ -19,14 +19,16 @@
                 Tipo: {{ pesticida.tipo }} <br>
                 Dosis: {{ pesticida.dosis }} <br>
                 Frecuencia: {{ pesticida.get_frecuencia_display }} <br>
-                Cultivo: {{ pesticida.cultivo.nombre }} <br>
+                Campo: {{ pesticida.campo.nombre }} <br>  <!-- Aquí mostramos el campo relacionado -->
 
+                <!-- Formulario para editar el pesticida -->
                 <form method="POST" action="{% url 'admin_pesticidas' %}">
                     {% csrf_token %}
                     <input type="hidden" name="editar_pesticida_id" value="{{ pesticida.id }}">
                     <button type="submit">Editar este pesticida</button>
                 </form>
 
+                <!-- Formulario para eliminar el pesticida -->
                 <form method="POST" action="{% url 'admin_pesticidas' %}" style="display:inline;">
                     {% csrf_token %}
                     <input type="hidden" name="eliminar_pesticida_id" value="{{ pesticida.id }}">
@@ -46,14 +48,16 @@
         {% endif %}
     </h2>
 
+    <!-- Formulario para crear o editar pesticidas -->
     <form method="POST" action="{% url 'admin_pesticidas' %}">
-        
         {% csrf_token %}
-
+        
         {% if pesticida_a_editar %}
             <input type="hidden" name="pesticida_id" value="{{ pesticida_a_editar.id }}">
         {% endif %}
-        {{ form.as_p }}
+        
+        {{ form.as_p }}  <!-- Muestra los campos del formulario -->
+        
         <button type="submit"> 
             {% if editing %}
                 Guardar cambios

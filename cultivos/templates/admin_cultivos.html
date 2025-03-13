@@ -15,18 +15,18 @@
     <ul>
         {% for cultivo in cultivos %}
             <li>
-                <strong>{{ cultivo }}</strong> <br>
+                <strong>{{ cultivo.tipo_cultivo.nombre }}</strong> <br>  <!-- Mostrar el nombre del tipo de cultivo -->
                 Campo: {{ cultivo.campo.nombre }} <br>
-                Tipo de suelo: {{ cultivo.tipo_suelo }} <br>
-                Temporada ideal: {{ cultivo.temporada_ideal }} <br>
+                Tipo de suelo: {{ cultivo.get_tipo_suelo_display }} <br> <!-- Mostrar el display name del tipo de suelo -->
+                Temporada ideal: {{ cultivo.get_temporada_ideal_display }} <br> <!-- Mostrar el display name de la temporada ideal -->
                 Requerimientos: {{ cultivo.requerimentos }} <br>
-
+    
                 <form method="POST" action="{% url 'admin_cultivos' %}">
                     {% csrf_token %}
-                    <input type="hidden" name="editar_cultivo_id" value="{{ cultivo.id }}">
+                    <input type="hidden" name="cultivo_id" value="{{ cultivo.id }}">
                     <button type="submit">Editar este cultivo</button>
                 </form>
-
+    
                 <form method="POST" action="{% url 'admin_cultivos' %}" style="display:inline;">
                     {% csrf_token %}
                     <input type="hidden" name="eliminar_cultivo_id" value="{{ cultivo.id }}">
@@ -37,6 +37,7 @@
             <li>No se han creado cultivos.</li>
         {% endfor %}
     </ul>
+    
 
     <h2> 
         {% if editing %}
@@ -53,6 +54,7 @@
         {% if cultivo_a_editar %}
             <input type="hidden" name="cultivo_id" value="{{ cultivo_a_editar.id }}">
         {% endif %}
+        
         {{ form.as_p }}
         <button type="submit"> 
             {% if editing %}

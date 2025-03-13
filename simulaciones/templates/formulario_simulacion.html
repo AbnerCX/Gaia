@@ -1,0 +1,52 @@
+<a href="{% url 'home' %}">Home</a>
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Cerrar sesión</button>
+</form>
+
+<h1>Realizar Simulación</h1>
+
+<form method="POST">
+  {% csrf_token %}
+
+  {% if error %}
+      <p style="color: red;">{{ error }}</p>
+  {% endif %}
+
+  <div class="form-group">
+      <label for="campo">Selecciona tu campo:</label>
+      <select name="campo" id="campo" class="form-control" required>
+          <option value="">Selecciona un campo</option>
+          {% for campo in campos %}
+              <option value="{{ campo.id }}">{{ campo.nombre }}</option>
+          {% endfor %}
+      </select>
+  </div>
+
+  <div class="form-group">
+      <label for="cultivo">Selecciona tu cultivo:</label>
+      <select name="cultivo" id="cultivo" class="form-control" required>
+          <option value="">Selecciona un cultivo</option>
+          {% for cultivo in cultivos %}
+              <option value="{{ cultivo.id }}">{{ cultivo.tipo_cultivo.nombre }}</option>  <!-- Cambié aquí -->
+          {% endfor %}
+      </select>
+  </div>
+
+  <div class="form-group">
+      <label for="humedad">Humedad (en %):</label>
+      <input type="number" step="0.01" name="humedad" id="humedad" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+      <label for="temperatura">Temperatura (°C):</label>
+      <input type="number" step="0.01" name="temperatura" id="temperatura" class="form-control" required>
+  </div>
+
+  <div class="form-group">
+      <label for="precipitacion">Precipitación (mm):</label>
+      <input type="number" step="0.01" name="precipitacion" id="precipitacion" class="form-control" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Evaluar</button>
+</form>

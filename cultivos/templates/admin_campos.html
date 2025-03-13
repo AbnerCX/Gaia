@@ -33,7 +33,7 @@
                     <!-- Formulario para eliminar campo -->
                     <form method="POST" action="{% url 'admin_campos' %}" style="display:inline;">
                         {% csrf_token %}
-                        <input type="hidden" name="eliminar_campo_id" value="{{ campo.id }}">
+                        <input type="hidden" name="eliminar_id" value="{{ campo.id }}">
                         <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este campo?');">Eliminar este campo</button>
                     </form>
                 </div>

@@ -8,17 +8,18 @@
 <body>
     <nav>
         <ul>
-            <li><a href="{% url 'login' %}">Iniciar Sesion</a></li>
-            <li><a href="{% url 'registrarse' %}">Registrarse</a></li>
+            {% if not user.is_authenticated %}
+                <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                <li><a href="{% url 'registrarse' %}">Registrarse</a></li>
+            {% endif %}
         </ul>
     </nav>
 
     <h1>Bienvenido a Gaia!!!</h1>
 
     {% if user.is_authenticated %}
-        
         <p>Bienvenido, {{ user.username }}!</p>
-        
+
         <a href="{% url 'admin_campos' %}">Administrar mis campos</a> <br>
 
         <a href="{% url 'admin_cultivos' %}">Administrar mis cultivos</a> <br>
@@ -31,16 +32,15 @@
 
         <a href="{% url 'admin_fertilizantes' %}">Administrar fertilizantes</a> <br>
 
-         
+        <a href="{% url 'realizar_simulacion' %}">Iniciar Simulacion</a> <br>
+
         <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit">Cerrar sesión</button>
         </form>
 
     {% else %}
-        
-        <a href="{% url 'login' %}">Iniciar sesión</a>
-        
+        <p>No has iniciado sesión.</p>
     {% endif %}
 
 </body>

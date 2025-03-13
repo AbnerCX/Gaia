@@ -18,14 +18,18 @@ class Campo(FechasMixin):
         verbose_name = "Campo"
         verbose_name_plural = "Campos"
 
+class TipoCultivo(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        db_table = "tipos_cultivo"
+        verbose_name = "Tipo de Cultivo"
+        verbose_name_plural = "Tipos de Cultivo"
+
 class Cultivo(FechasMixin):
-    
-    class TipoDeCultivo(models.IntegerChoices):
-        PAPA = 1, "Papa"
-        ARROZ = 2, "Arroz"
-        TOMATE = 3, "Tomate"
-        TRIGO = 4, "Trigo"
-        MAIZ = 5, "Maíz"
 
     class TipoDeSuelo(models.IntegerChoices):
         ARCILLOSO = 1, "Arcilloso"
@@ -39,15 +43,15 @@ class Cultivo(FechasMixin):
         VERANO = 2, "Verano"
         OTONO = 3, "Otoño"
         INVIERNO = 4, "Invierno"
-
+    
     campo = models.ForeignKey(Campo, on_delete=models.CASCADE)
-    nombre = models.IntegerField(choices=TipoDeCultivo.choices)
+    tipo_cultivo = models.ForeignKey(TipoCultivo, on_delete=models.CASCADE)
     tipo_suelo = models.IntegerField(choices=TipoDeSuelo.choices)
     temporada_ideal = models.IntegerField(choices=TemporadaIdeal.choices)
     requerimentos = models.TextField()
 
     def __str__(self):
-        return f"{self.get_nombre_display()} - {self.get_tipo_suelo_display()} - {self.get_temporada_ideal_display()}"
+        return f"{self.tipo_cultivo.nombre} - {self.get_tipo_suelo_display()} - {self.get_temporada_ideal_display()}"
 
     class Meta:
         db_table = "cultivos"
@@ -100,10 +104,10 @@ class Plagas(FechasMixin):
         verbose_name_plural = "Plagas"
 
 class Pesticidas(FechasMixin, Productos):
-    cultivo = models.ForeignKey(Cultivo, on_delete=models.CASCADE)
+    campo = models.ForeignKey(Campo, on_delete=models.CASCADE)  # Relación con Campo
 
     def __str__(self):
-        return f"{self.nombre} - ({self.tipo} para {self.cultivo.nombre})"
+        return f"{self.nombre} - ({self.tipo} para el campo {self.campo.nombre})"  # Actualizado para mostrar el campo
     
     class Meta:
         db_table = "pesticida"
@@ -111,14 +115,15 @@ class Pesticidas(FechasMixin, Productos):
         verbose_name_plural = "Pesticidas"
 
 class Fertilizantes(FechasMixin, Productos):
-    cultivo = models.ForeignKey(Cultivo, on_delete=models.CASCADE)
+    campo = models.ForeignKey(Campo, on_delete=models.CASCADE)  # Relación con Campo
 
     def __str__(self):
-        return f"{self.nombre} - ({self.tipo} para {self.cultivo.nombre})"
+        return f"{self.nombre} - ({self.tipo} para el campo {self.campo.nombre})"  # Actualizado para mostrar el campo
     
     class Meta:
         db_table = "fertilizante"
         verbose_name = "Fertilizante"
         verbose_name_plural = "Fertilizantes"
+
 
 

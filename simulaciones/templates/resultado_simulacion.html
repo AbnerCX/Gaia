@@ -1,0 +1,23 @@
+
+  <h1>Resultado de la Simulación</h1>
+
+  {% if es_optimo %}
+    <div class="alert alert-success">
+      <p><strong>¡Éxito!</strong> Los valores ingresados son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
+    </div>
+  {% else %}
+    <div class="alert alert-danger">
+      <p><strong>¡Advertencia!</strong> Los valores ingresados no son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
+    </div>
+  {% endif %}
+
+  <h3>Detalles de la Simulación:</h3>
+  <ul>
+    <li><strong>Campo:</strong> {{ simulacion.campo.nombre }}</li>
+    <li><strong>Humedad ingresada:</strong> {{ simulacion.humedad_ingresada }} %</li>
+    <li><strong>Temperatura ingresada:</strong> {{ simulacion.temperatura_ingresada }} °C</li>
+    <li><strong>Precipitación ingresada:</strong> {{ simulacion.precipitacion_ingresada }} mm</li>
+  </ul>
+
+  <a href="{% url 'realizar_simulacion' %}" class="btn btn-secondary">Volver a realizar una simulación</a>
+
