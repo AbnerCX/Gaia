@@ -3,10 +3,9 @@ from django.contrib.auth.models import User
 from utilidades.models import FechasMixin
 
 class Pregunta(FechasMixin):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=255)
     contenido = models.TextField()
-    vistas = models.PositiveIntegerField(default=0)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.titulo
@@ -18,14 +17,12 @@ class Pregunta(FechasMixin):
 
 
 class Respuesta(FechasMixin):
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, related_name='respuestas')
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     contenido = models.TextField()
-    votos_positivos = models.IntegerField(default=0)
-    votos_negativos = models.IntegerField(default=0)
+    pregunta = models.ForeignKey(Pregunta, related_name='respuestas', on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Respuesta de {self.usuario.username} para la pregunta: {self.pregunta.titulo}"
+        return f"Respuesta de {self.usuario.username}"
 
     class Meta:
         db_table = "respuestas"

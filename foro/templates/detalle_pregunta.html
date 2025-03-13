@@ -1,0 +1,27 @@
+<a href="{% url 'home' %}">Home</a>
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Cerrar sesión</button>
+</form>
+
+<h1>{{ pregunta.titulo }}</h1>
+<p>{{ pregunta.contenido }}</p>
+<p>Pregunta de: {{ pregunta.usuario.username }} - {{ pregunta.creado }}</p>
+
+<h2>Respuestas</h2>
+<ul>
+    {% for respuesta in respuestas %}
+    <li>
+        <p>{{ respuesta.contenido }}</p>
+        <p>Respondido por: {{ respuesta.usuario.username }} - {{ respuesta.creado }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+<h3>Escribir una respuesta</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Responder</button>
+</form>
+

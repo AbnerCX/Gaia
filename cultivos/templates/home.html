@@ -34,6 +34,8 @@
 
         <a href="{% url 'realizar_simulacion' %}">Iniciar Simulacion</a> <br>
 
+        <a href="{% url 'lista_preguntas' %}">Foro de preguntas y respuestas</a>
+
         <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit">Cerrar sesión</button>

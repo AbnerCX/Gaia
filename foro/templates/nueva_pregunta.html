@@ -1,0 +1,14 @@
+<a href="{% url 'home' %}">Home</a>
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Cerrar sesión</button>
+</form>
+
+
+<h1>Nueva Pregunta</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Publicar</button>
+</form>
+

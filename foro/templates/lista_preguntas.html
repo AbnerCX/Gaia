@@ -1,0 +1,17 @@
+<a href="{% url 'home' %}">Home</a>
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Cerrar sesión</button>
+</form>
+
+<h1>Preguntas Recientes</h1>
+<a href="{% url 'nueva_pregunta' %}">Nueva Pregunta</a>
+<ul>
+    {% for pregunta in preguntas %}
+    <li>
+        <a href="{% url 'detalle_pregunta' pregunta.pk %}">{{ pregunta.titulo }}</a>
+        <p>{{ pregunta.usuario.username }} - {{ pregunta.creado }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
