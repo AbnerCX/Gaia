@@ -1,17 +1,51 @@
-<a href="{% url 'home' %}">Home</a>
-<form method="POST" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">Cerrar sesión</button>
-</form>
+{% load static %}
 
-<h1>Preguntas Recientes</h1>
-<a href="{% url 'nueva_pregunta' %}">Nueva Pregunta</a>
-<ul>
-    {% for pregunta in preguntas %}
-    <li>
-        <a href="{% url 'detalle_pregunta' pregunta.pk %}">{{ pregunta.titulo }}</a>
-        <p>{{ pregunta.usuario.username }} - {{ pregunta.creado }}</p>
-    </li>
-    {% endfor %}
-</ul>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Recientes</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="max-w-7xl mx-auto px-4 py-6">
 
+        <!-- Navegación -->
+        <div class="flex justify-between items-center mb-6">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Volver
+            </a>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
+
+        <!-- Título -->
+        <h1 class="text-3xl font-bold text-center mb-6">Preguntas Recientes</h1>
+
+        <!-- Nueva Pregunta -->
+        <a href="{% url 'nueva_pregunta' %}" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 mb-6 inline-block">
+            Nueva Pregunta
+        </a>
+
+        <!-- Lista de Preguntas -->
+        <ul class="space-y-4">
+            {% for pregunta in preguntas %}
+                <li class="bg-white p-4 rounded-lg shadow">
+                    <a href="{% url 'detalle_pregunta' pregunta.pk %}" class="text-lg font-semibold text-blue-600 hover:underline">
+                        {{ pregunta.titulo }}
+                    </a>
+                    <p class="text-sm text-gray-600">{{ pregunta.usuario.username }} - {{ pregunta.creado }}</p>
+                </li>
+            {% empty %}
+                <li class="text-gray-600">No hay preguntas recientes.</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</body>
+</html>

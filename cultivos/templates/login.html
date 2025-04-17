@@ -1,22 +1,81 @@
-<form method="POST">
-    <h1>Iniciar Sesion</h1>
-    
-    {% csrf_token %}
-    {{ form.as_p }}
+{% load static %}
 
-    {% if form.errors %}
-        <ul>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <nav class="bg-green-600 p-4 text-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Botón de regreso a home con animación personalizada -->
+            <a href="{% url 'home' %}" class="px-3 py-2 relative rounded group overflow-hidden font-medium bg-purple-50 text-green-600 inline-block">
+                <!-- Animación para fondo que se expande -->
+                <span class="absolute top-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-[#8B4513] group-hover:h-full opacity-90"></span>
+                <!-- Texto que cambia de color al hacer hover -->
+                <span class="relative group-hover:text-white">Regresar a Home</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Formulario de inicio de sesión (centrado) -->
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mt-10 mx-auto">
+        <h1 class="text-2xl font-bold text-center text-green-700 mb-4">Iniciar Sesión</h1>
+
+        <!-- Mensaje de error general -->
+        {% if form.non_field_errors %}
+            <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+                <ul class="errorlist nonfield">
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+
+            <!-- Modifica los inputs con Tailwind -->
             {% for field in form %}
-                {% for error in field.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
+                <div class="w-full max-w-sm min-w-[200px]">
+                    <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                    
+                    {{ field }}
+                    
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            let input = document.getElementById("{{ field.id_for_label }}");
+                            if (input) {
+                                input.className = "w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-teal-500 hover:border-teal-300 shadow-sm focus:shadow";
+                            }
+                        });
+                    </script>
+                    
+                    {% if field.errors %}
+                        <p class="text-red-600 text-sm mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
             {% endfor %}
-        </ul>
-    {% endif %}
-    
-    <button type="submit">Iniciar sesion</button>
-</form>
 
-<p>¿No tienes una cuenta? 
-    <a href="{% url 'registrarse' %}">Registrate aqui</a>
-</p>
+            <!-- Botón de inicio de sesión con tamaño reducido -->
+            <div class="flex justify-center">
+                <button type="submit" class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium text-white bg-green-600 rounded-lg group">
+                    <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-[#8B4513] rounded-full group-hover:w-56 group-hover:h-56"></span>
+                    <span class="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-gray-700"></span>
+                    <span class="relative">Iniciar sesión</span>
+                </button>
+            </div>
+        </form>
+
+        <p class="text-center text-gray-600 mt-4">¿No tienes una cuenta? 
+            <a href="{% url 'registrarse' %}" class="text-green-600 hover:underline">Regístrate aquí</a>
+        </p>
+    </div>
+
+</body>
+</html>

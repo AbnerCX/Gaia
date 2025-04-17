@@ -1,49 +1,99 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaia</title>
+    <title>SIEMBRA</title>
+    {% load static %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
-<body>
-    <nav>
-        <ul>
-            {% if not user.is_authenticated %}
-                <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
-                <li><a href="{% url 'registrarse' %}">Registrarse</a></li>
-            {% endif %}
-        </ul>
+
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Barra de navegación -->
+    <nav
+        class="bg-green-600 dark:bg-green-600 fixed w-full z-20 top-0 start-0 border-b border-green-800 dark:border-green-600">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">SIEMBRA</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                {% if not user.is_authenticated %}
+                <a href="{% url 'login' %}">
+                    <button
+                        class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-green-500 group-hover:from-blue-600 group-hover:to-green-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
+                        <span
+                            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
+                            Iniciar sesión
+                        </span>
+                    </button>
+                </a>
+                <a href="{% url 'registrarse' %}">
+                    <button
+                        class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-600 group-hover:to-pink-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
+                        <span
+                            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
+                            Registrarse
+                        </span>
+                    </button>
+                </a>
+                {% else %}
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                        Cerrar sesión
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
     </nav>
 
-    <h1>Bienvenido a SIEMBRA!!!</h1>
+    <div class="mt-20 p-6">
+        {% if not user.is_authenticated %}
+        <div class="bg-white shadow-md rounded-2xl p-6 text-center max-w-2xl mx-auto mt-8">
+            <h2 class="text-2xl font-bold text-green-700">Bienvenido a SIEMBRA</h2>
+            <p class="text-gray-700 mt-2">
+                SIEMBRA es una plataforma diseñada para ayudarte a gestionar tus cultivos de manera eficiente.
+                Regístrate o inicia sesión para acceder a herramientas de planificación, monitoreo y manejo de plagas.
+            </p>
+            <!-- Imagen pequeña con bordes redondeados -->
+            <div class="mt-6">
+                <img src="{% static 'img/home.jpg' %}" alt="Imagen de SIEMBRA"  class="rounded-lg shadow-md">
+                
+            </div>
+        </div>
+        {% endif %}
 
-    {% if user.is_authenticated %}
-        <p>Bienvenido, {{ user.username }}!</p>
 
-        <a href="{% url 'admin_campos' %}">Administrar mis campos</a> <br>
-
-        <a href="{% url 'admin_cultivos' %}">Administrar mis cultivos</a> <br>
-
-        <a href="{% url 'admin_plagas' %}">Administrar plagas</a> <br>
-
-        <a href="{% url 'admin_planificaciones' %}">Planificar cultivos</a> <br>
-
-        <a href="{% url 'admin_pesticidas' %}">Administrar pesticidas</a> <br>
-
-        <a href="{% url 'admin_fertilizantes' %}">Administrar fertilizantes</a> <br>
-
-        <a href="{% url 'realizar_simulacion' %}">Iniciar Simulacion</a> <br>
-
-        <a href="{% url 'lista_preguntas' %}">Foro de preguntas y respuestas</a>
-
-        <form method="POST" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit">Cerrar sesión</button>
-        </form>
-
-    {% else %}
-        <p>No has iniciado sesión.</p>
-    {% endif %}
+        {% if user.is_authenticated %}
+        <p class="text-center mt-4">Bienvenido, <strong>{{ user.username }}</strong>!</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <a href="{% url 'admin_campos' %}"
+                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar mis campos</a>
+            <a href="{% url 'admin_cultivos' %}"
+                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar mis cultivos</a>
+            <a href="{% url 'admin_plagas' %}"
+                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar plagas</a>
+            <a href="{% url 'admin_planificaciones' %}"
+                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Planificar cultivos</a>
+            <a href="{% url 'admin_pesticidas' %}"
+                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar pesticidas</a>
+            <a href="{% url 'admin_fertilizantes' %}"
+                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar fertilizantes</a>
+            <a href="{% url 'realizar_simulacion' %}"
+                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Iniciar Simulación</a>
+            <a href="{% url 'lista_preguntas' %}"
+                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Foro de preguntas y
+                respuestas</a>
+        </div>
+        {% else %}
+        <p class="font-serif text-2xl text-center text-gray-700 mt-4">No has iniciado sesión.</p>
+        {% endif %}
+    </div>
 
 </body>
+
 </html>

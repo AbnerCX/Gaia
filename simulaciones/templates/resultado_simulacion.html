@@ -1,23 +1,47 @@
+{% load static %}
 
-  <h1>Resultado de la Simulación</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de la Simulación</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="max-w-4xl mx-auto px-4 py-6">
 
-  {% if es_optimo %}
-    <div class="alert alert-success">
-      <p><strong>¡Éxito!</strong> Los valores ingresados son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
+        <!-- Título -->
+        <h1 class="text-3xl font-bold text-center mb-6">Resultado de la Simulación</h1>
+
+        <!-- Mensaje de Resultado -->
+        {% if es_optimo %}
+            <div class="bg-green-100 text-green-800 border border-green-300 rounded-lg shadow-lg px-6 py-4 mb-6">
+                <p><strong>¡Éxito!</strong> Los valores ingresados son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
+            </div>
+        {% else %}
+            <div class="bg-red-100 text-red-800 border border-red-300 rounded-lg shadow-lg px-6 py-4 mb-6">
+                <p><strong>¡Advertencia!</strong> Los valores ingresados no son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
+            </div>
+        {% endif %}
+
+        <!-- Detalles de la Simulación -->
+        <h3 class="text-2xl font-semibold mb-4">Detalles de la Simulación:</h3>
+        <div class="bg-gray-50 border border-gray-300 rounded-lg shadow-lg px-6 py-4 mb-6">
+            <ul class="space-y-2 text-gray-700">
+                <li><strong>Campo:</strong> {{ simulacion.campo.nombre }}</li>
+                <li><strong>Humedad ingresada:</strong> {{ simulacion.humedad_ingresada }} %</li>
+                <li><strong>Temperatura ingresada:</strong> {{ simulacion.temperatura_ingresada }} °C</li>
+                <li><strong>Precipitación ingresada:</strong> {{ simulacion.precipitacion_ingresada }} mm</li>
+            </ul>
+        </div>
+
+        <!-- Botón para realizar una nueva simulación -->
+        <div class="mt-6">
+            <a href="{% url 'realizar_simulacion' %}" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                Volver a realizar una simulación
+            </a>
+        </div>
     </div>
-  {% else %}
-    <div class="alert alert-danger">
-      <p><strong>¡Advertencia!</strong> Los valores ingresados no son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
-    </div>
-  {% endif %}
-
-  <h3>Detalles de la Simulación:</h3>
-  <ul>
-    <li><strong>Campo:</strong> {{ simulacion.campo.nombre }}</li>
-    <li><strong>Humedad ingresada:</strong> {{ simulacion.humedad_ingresada }} %</li>
-    <li><strong>Temperatura ingresada:</strong> {{ simulacion.temperatura_ingresada }} °C</li>
-    <li><strong>Precipitación ingresada:</strong> {{ simulacion.precipitacion_ingresada }} mm</li>
-  </ul>
-
-  <a href="{% url 'realizar_simulacion' %}" class="btn btn-secondary">Volver a realizar una simulación</a>
-
+</body>
+</html>

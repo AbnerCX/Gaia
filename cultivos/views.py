@@ -85,8 +85,8 @@ def admin_cultivos(request):
     # Si es una solicitud POST
     if request.method == 'POST':
         # Eliminar cultivo
-        if 'eliminar_id' in request.POST:
-            cultivo_id = request.POST.get('eliminar_id')
+        if 'eliminar_cultivo_id' in request.POST:  # Asegúrate de que el nombre coincide con el formulario
+            cultivo_id = request.POST.get('eliminar_cultivo_id')
             cultivo = Cultivo.objects.get(id=cultivo_id, campo__usuario=request.user)
             cultivo.delete()  # Elimina el cultivo
             return redirect('admin_cultivos')  # Redirige a la misma página después de eliminar

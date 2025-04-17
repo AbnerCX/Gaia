@@ -1,80 +1,110 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrar Fertilizantes</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
-<body>
-    <a href="{% url 'home' %}">Home</a>
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Cerrar sesión</button>
-    </form>
+<body class="bg-gray-100 text-gray-800">
+    <div class="max-w-7xl mx-auto px-4 py-6">
 
-    <h1>Administrar Fertilizantes</h1>
+        <!-- Navegación -->
+        <div class="flex justify-between items-center mb-6">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Volver
+            </a>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
 
-    <ul>
-        {% for fertilizante in fertilizantes %}
-            <li>
-                <strong>{{ fertilizante.nombre }}</strong> <br>
-                Tipo: {{ fertilizante.tipo }} <br>
-                Dosis: {{ fertilizante.dosis }} <br>
-                Frecuencia: {{ fertilizante.get_frecuencia_display }} <br>
-                Campo: {{ fertilizante.campo.nombre }} <br> <!-- Cambié 'cultivo' por 'campo' -->
+        <!-- Título -->
+        <h1 class="text-3xl font-bold text-center mb-6">Administrar Fertilizantes</h1>
 
-                <!-- Formulario para editar fertilizante -->
-                <form method="POST" action="{% url 'admin_fertilizantes' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="editar_fertilizante_id" value="{{ fertilizante.id }}">
-                    <button type="submit">Editar este fertilizante</button>
-                </form>
+        <!-- Lista de Fertilizantes -->
+        <h2 class="text-2xl font-semibold mb-4">Mis Fertilizantes Registrados</h2>
+        <ul class="space-y-4">
+            {% for fertilizante in fertilizantes %}
+                <li class="bg-white p-4 rounded-lg shadow">
+                    <strong class="text-lg">{{ fertilizante.nombre }}</strong>
+                    <p class="text-sm text-gray-600">Tipo: {{ fertilizante.tipo }}</p>
+                    <p class="text-sm text-gray-600">Dosis: {{ fertilizante.dosis }}</p>
+                    <p class="text-sm text-gray-600">Frecuencia: {{ fertilizante.get_frecuencia_display }}</p>
+                    <p class="text-sm text-gray-600">Campo: {{ fertilizante.campo.nombre }}</p>
 
-                <!-- Formulario para eliminar fertilizante -->
-                <form method="POST" action="{% url 'admin_fertilizantes' %}" style="display:inline;">
-                    {% csrf_token %}
-                    <input type="hidden" name="eliminar_fertilizante_id" value="{{ fertilizante.id }}">
-                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este fertilizante?');">Eliminar este fertilizante</button>
-                </form>
-            </li>
-        {% empty %}
-            <li>No se han creado fertilizantes.</li>
-        {% endfor %}
-    </ul>
+                    <div class="mt-4 flex gap-2">
+                        <!-- Botón Editar -->
+                        <form method="POST" action="{% url 'admin_fertilizantes' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="editar_fertilizante_id" value="{{ fertilizante.id }}">
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                Editar
+                            </button>
+                        </form>
 
-    <h2>
-        {% if editing %}
-            Editar Fertilizante
-        {% else %}
-            Crear Nuevo Fertilizante
-        {% endif %}
-    </h2>
+                        <!-- Botón Eliminar -->
+                        <form method="POST" action="{% url 'admin_fertilizantes' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="eliminar_fertilizante_id" value="{{ fertilizante.id }}">
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                onclick="return confirm('¿Estás seguro de que deseas eliminar este fertilizante?');">
+                                Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="text-gray-600">No se han creado fertilizantes.</li>
+            {% endfor %}
+        </ul>
 
-    <!-- Formulario para crear o editar fertilizante -->
-    <form method="POST" action="{% url 'admin_fertilizantes' %}">
-        {% csrf_token %}
-        
-        <!-- Si estamos editando, enviamos el ID del fertilizante para modificar -->
-        {% if fertilizante_a_editar %}
-            <input type="hidden" name="fertilizante_id" value="{{ fertilizante_a_editar.id }}">
-        {% endif %}
-        
-        <!-- Mostrar el formulario del objeto Fertilizante -->
-        {{ form.as_p }}
-        
-        <button type="submit">
+        <!-- Formulario para crear o editar fertilizante -->
+        <div class="mt-8 bg-white p-6 rounded-lg shadow">
+            <h2 class="text-2xl font-semibold mb-4">
+                {% if editing %} Editar Fertilizante {% else %} Crear Nuevo Fertilizante {% endif %}
+            </h2>
+
+            <form method="POST" action="{% url 'admin_fertilizantes' %}">
+                {% csrf_token %}
+
+                {% if fertilizante_a_editar %}
+                    <input type="hidden" name="fertilizante_id" value="{{ fertilizante_a_editar.id }}">
+                {% endif %}
+
+                <div class="space-y-4">
+                    {{ form.as_p }}
+                </div>
+
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-2">
+                    {% if editing %} Guardar cambios {% else %} Crear fertilizante {% endif %}
+                </button>
+            </form>
+
             {% if editing %}
-                Guardar cambios
-            {% else %}
-                Crear fertilizante
+                <form method="GET" action="{% url 'admin_fertilizantes' %}" class="mt-4">
+                    <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mt-2">
+                        Cancelar edición
+                    </button>
+                </form>
             {% endif %}
-        </button>
-    </form>
+        </div>
+    </div>
 
-    {% if editing %}
-        <a href="{% url 'admin_fertilizantes' %}">
-            <button type="button">Cancelar</button>
-        </a>
-    {% endif %}
+    <style>
+        input[type="text"], input[type="number"], textarea, select {
+            border: 1px solid #D1D5DB;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            width: 100%;
+        }
+    </style>
 </body>
 </html>
+
