@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -9,91 +9,118 @@
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100 text-gray-900">
+<body
+    {% if not user.is_authenticated %}
+        <body class="bg-gradient-to-br from-emerald-300 via-amber-200 to-brown-300 text-gray-800 min-h-screen w-full overflow-x-hidden">
+    {% else %}
+        class="bg-cover bg-center text-gray-800 flex flex-col justify-start min-h-screen overflow-x-hidden"
+        style="background-image: url('{% static 'img/background_home.png' %}'); background-position: center 225px; background-size: 20%; background-repeat: no-repeat;"
+    {% endif %}
+>
 
     <!-- Barra de navegación -->
-    <nav
-        class="bg-green-600 dark:bg-green-600 fixed w-full z-20 top-0 start-0 border-b border-green-800 dark:border-green-600">
+    <nav class="bg-green-600 dark:bg-green-600 fixed w-full z-20 top-0 start-0 border-b border-green-800 dark:border-green-600">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">SIEMBRA</span>
             </a>
             <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 {% if not user.is_authenticated %}
-                <a href="{% url 'login' %}">
-                    <button
-                        class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-green-500 group-hover:from-blue-600 group-hover:to-green-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
-                        <span
-                            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
-                            Iniciar sesión
-                        </span>
-                    </button>
-                </a>
-                <a href="{% url 'registrarse' %}">
-                    <button
-                        class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-600 group-hover:to-pink-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
-                        <span
-                            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-transparent group-hover:dark:bg-transparent">
-                            Registrarse
-                        </span>
-                    </button>
-                </a>
+                    <a href="{% url 'login' %}">
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-blue-500 to-green-500 group-hover:from-blue-600 group-hover:to-green-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800">
+                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-lg group-hover:bg-transparent group-hover:dark:bg-transparent">
+                                Iniciar sesión
+                            </span>
+                        </button>
+                    </a>
+                    <a href="{% url 'registrarse' %}">
+                        <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-600 group-hover:to-pink-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
+                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-lg group-hover:bg-transparent group-hover:dark:bg-transparent">
+                                Registrarse
+                            </span>
+                        </button>
+                    </a>
                 {% else %}
-                <form method="POST" action="{% url 'logout' %}">
-                    {% csrf_token %}
-                    <button type="submit"
-                        class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                        Cerrar sesión
-                    </button>
-                </form>
+                    <form method="POST" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-red-700">
+                         Cerrar sesión
+                        </button>
+                    </form>
                 {% endif %}
             </div>
         </div>
     </nav>
 
-    <div class="mt-20 p-6">
-        {% if not user.is_authenticated %}
-        <div class="bg-white shadow-md rounded-2xl p-6 text-center max-w-2xl mx-auto mt-8">
-            <h2 class="text-2xl font-bold text-green-700">Bienvenido a SIEMBRA</h2>
-            <p class="text-gray-700 mt-2">
-                SIEMBRA es una plataforma diseñada para ayudarte a gestionar tus cultivos de manera eficiente.
-                Regístrate o inicia sesión para acceder a herramientas de planificación, monitoreo y manejo de plagas.
-            </p>
-            <!-- Imagen pequeña con bordes redondeados -->
-            <div class="mt-6">
-                <img src="{% static 'img/home.jpg' %}" alt="Imagen de SIEMBRA"  class="rounded-lg shadow-md">
-                
+    <div class="min-h-screen w-full">
+        <div class="container mx-auto px-4 pt-16">
+            {% if not user.is_authenticated %}
+                <div class="bg-white shadow-md rounded-2xl p-6 text-center max-w-2xl w-full mx-auto mt-8 border-2 border-black">
+                    <h2 class="text-2xl font-bold text-green-700 tracking-wide drop-shadow-md">Bienvenido a SIEMBRA</h2>
+                    <p class="text-black mt-2">
+                        SIEMBRA es una plataforma diseñada para ayudarte a gestionar tus cultivos de manera eficiente.
+                        Regístrate o inicia sesión para acceder a herramientas de planificación, monitoreo y manejo de plagas.
+                    </p>
+                    <div class="mt-4">
+                        <img src="{% static 'img/home.jpg' %}" alt="Imagen de SIEMBRA" class="rounded-lg shadow-md max-w-full max-h-[400px] h-auto mx-auto transition-colors duration-200 border-3 border-transparent hover:border-green-500">
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+         {% if user.is_authenticated %}
+            <p class="text-center mt-16 text-2xl">Bienvenido, <strong>{{ user.username }}</strong>!</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-16">
+                <a href="{% url 'admin_campos' %}" class="relative block p-4 w-fit mx-auto border-2 border-green-500 text-black font-semibold rounded-2xl text-center shadow-md overflow-hidden z-0 group transition-all duration-300 rounded-full">
+                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Administrar mis campos</span>
+                    <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
+                </a>
+
+                <a href="{% url 'admin_cultivos' %}" class="relative block p-4 w-fit mx-auto border-2 border-green-500 text-black font-semibold rounded-2xl text-center shadow-md overflow-hidden z-0 group transition-all duration-300 rounded-full">
+                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Administrar mis cultivos</span>
+                    <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
+                </a>
+
+                <a href="{% url 'admin_plagas' %}" class="relative block p-4 w-fit mx-auto border-2 border-green-500 text-black font-semibold rounded-2xl text-center shadow-md overflow-hidden z-0 group transition-all duration-300 rounded-full">
+                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Administrar plagas</span>
+                    <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
+                </a>
+
+                <a href="{% url 'admin_planificaciones' %}" class="relative block p-4 w-fit mx-auto border-2 border-green-500 text-black font-semibold rounded-2xl text-center shadow-md overflow-hidden z-0 group transition-all duration-300 rounded-full">
+                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Planificar cultivos</span>
+                    <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
+                </a>
+
+                <a href="{% url 'admin_pesticidas' %}" class="relative block p-4 w-fit mx-auto border-2 border-green-500 text-black font-semibold rounded-2xl text-center shadow-md overflow-hidden z-0 group transition-all duration-300 rounded-full">
+                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Administrar pesticidas</span>
+                    <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
+                </a>
+
+                <a href="{% url 'admin_fertilizantes' %}" class="relative block p-4 w-fit mx-auto border-2 border-green-500 text-black font-semibold rounded-2xl text-center shadow-md overflow-hidden z-0 group transition-all duration-300 rounded-full">
+                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Administrar fertilizantes</span>
+                    <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
+                </a>
+
+                <a href="{% url 'realizar_simulacion' %}" class="relative block p-4 w-fit mx-auto border-2 border-green-500 text-black font-semibold rounded-2xl text-center shadow-md overflow-hidden z-0 group transition-all duration-300 rounded-full">
+                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Iniciar Simulación</span>
+                    <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
+                </a>
+
+                <a href="{% url 'lista_preguntas' %}" class="relative block p-4 w-fit mx-auto border-2 border-green-500 text-black font-semibold rounded-2xl text-center shadow-md overflow-hidden z-0 group transition-all duration-300 rounded-full">
+                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Foro de preguntas y respuestas</span>
+                    <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
+                </a>
             </div>
-        </div>
-        {% endif %}
-
-
-        {% if user.is_authenticated %}
-        <p class="text-center mt-4">Bienvenido, <strong>{{ user.username }}</strong>!</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            <a href="{% url 'admin_campos' %}"
-                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar mis campos</a>
-            <a href="{% url 'admin_cultivos' %}"
-                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar mis cultivos</a>
-            <a href="{% url 'admin_plagas' %}"
-                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar plagas</a>
-            <a href="{% url 'admin_planificaciones' %}"
-                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Planificar cultivos</a>
-            <a href="{% url 'admin_pesticidas' %}"
-                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar pesticidas</a>
-            <a href="{% url 'admin_fertilizantes' %}"
-                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Administrar fertilizantes</a>
-            <a href="{% url 'realizar_simulacion' %}"
-                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Iniciar Simulación</a>
-            <a href="{% url 'lista_preguntas' %}"
-                class="block p-4 bg-white shadow rounded text-center hover:bg-green-100">Foro de preguntas y
-                respuestas</a>
-        </div>
         {% else %}
-        <p class="font-serif text-2xl text-center text-gray-700 mt-4">No has iniciado sesión.</p>
+            <p class="font-serif text-2xl text-center text-black font-extrabold mt-6 mb-6" style="position: relative; ">No has iniciado sesión.</p>
         {% endif %}
     </div>
 
 </body>
 
 </html>
+
+
+
+
+

@@ -1,4 +1,4 @@
-{% load static %}
+    {% load static %}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -8,22 +8,19 @@
     <title>Iniciar Sesión</title>
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
+<body class="bg-gradient-to-br from-emerald-300 via-amber-200 to-brown-300 text-gray-800 min-h-screen w-full overflow-x-hidden">
 
-    <nav class="bg-green-600 p-4 text-white">
+    <nav class="bg-green-600 p-4 text-white w-full">
         <div class="container mx-auto flex justify-between items-center">
-            <!-- Botón de regreso a home con animación personalizada -->
-            <a href="{% url 'home' %}" class="px-3 py-2 relative rounded group overflow-hidden font-medium bg-purple-50 text-green-600 inline-block">
-                <!-- Animación para fondo que se expande -->
-                <span class="absolute top-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-[#8B4513] group-hover:h-full opacity-90"></span>
-                <!-- Texto que cambia de color al hacer hover -->
-                <span class="relative group-hover:text-white">Regresar a Home</span>
+            <!-- Botón para regresar a la página de inicio con estilo de transición -->
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md">
+                Regresar a Home
             </a>
         </div>
     </nav>
 
-    <!-- Formulario de inicio de sesión (centrado) -->
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mt-10 mx-auto">
+    <!-- Formulario de inicio de sesión  -->
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mt-20 mx-auto border-2 border-black">
         <h1 class="text-2xl font-bold text-center text-green-700 mb-4">Iniciar Sesión</h1>
 
         <!-- Mensaje de error general -->
@@ -44,18 +41,18 @@
             {% for field in form %}
                 <div class="w-full max-w-sm min-w-[200px]">
                     <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-                    
+
                     {{ field }}
-                    
+
                     <script>
                         document.addEventListener("DOMContentLoaded", function() {
                             let input = document.getElementById("{{ field.id_for_label }}");
                             if (input) {
-                                input.className = "w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-teal-500 hover:border-teal-300 shadow-sm focus:shadow";
+                                 input.className = "w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border-2 border-black rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-teal-500 hover:border-teal-300 shadow-sm focus:shadow";
                             }
                         });
                     </script>
-                    
+
                     {% if field.errors %}
                         <p class="text-red-600 text-sm mt-1">{{ field.errors.0 }}</p>
                     {% endif %}
@@ -66,13 +63,12 @@
             <div class="flex justify-center">
                 <button type="submit" class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium text-white bg-green-600 rounded-lg group">
                     <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-[#8B4513] rounded-full group-hover:w-56 group-hover:h-56"></span>
-                    <span class="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-gray-700"></span>
                     <span class="relative">Iniciar sesión</span>
                 </button>
             </div>
         </form>
 
-        <p class="text-center text-gray-600 mt-4">¿No tienes una cuenta? 
+        <p class="text-center text-black-600 mt-4">¿No tienes una cuenta?
             <a href="{% url 'registrarse' %}" class="text-green-600 hover:underline">Regístrate aquí</a>
         </p>
     </div>

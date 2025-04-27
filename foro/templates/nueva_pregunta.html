@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,54 +7,51 @@
     <title>Nueva Pregunta</title>
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-800">
-    <div class="max-w-7xl mx-auto px-4 py-6">
+<body class="bg-gradient-to-br from-emerald-300 via-amber-200 to-brown-300 text-gray-800 min-h-screen w-full overflow-x-hidden">
+    <div class="max-w-4xl mx-auto px-4 py-6">
 
         <!-- Navegación -->
         <div class="flex justify-between items-center mb-6">
-            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700">
                 Volver
             </a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-red-700">
                     Cerrar sesión
                 </button>
             </form>
         </div>
 
         <!-- Título -->
-        <h1 class="text-3xl font-bold text-center mb-6">Nueva Pregunta</h1>
+        <h1 class="text-5xl font-extrabold text-center mb-10 text-green-800 tracking-wide drop-shadow-md">Nueva Pregunta</h1>
 
         <!-- Formulario para Nueva Pregunta -->
-        <form method="post" class="bg-white p-6 rounded-lg shadow-lg">
+        <form method="post" class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
             {% csrf_token %}
             <div class="space-y-4">
-                <!-- Estiliza inputs y textarea -->
                 {{ form.as_p }}
             </div>
-            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 mt-4 w-full">
+            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg w-full shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700 mt-4">
                 Publicar
             </button>
         </form>
 
     </div>
 
-    <!-- Estilos personalizados para los inputs -->
     <style>
         input[type="text"], textarea, select {
-            border: 1px solid #D1D5DB; /* Color gris claro para el borde */
-            border-radius: 0.5rem; /* Bordes redondeados */
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-            padding: 0.5rem; /* Espaciado interno */
-            width: 100%; /* Tamaño completo */
-            background-color: #F9FAFB; /* Fondo claro */
+            border: 1px solid #D1D5DB;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            width: 100%;
+            background-color: #F9FAFB;
         }
-
         input[type="text"]:focus, textarea:focus {
-            outline: none; /* Elimina el borde azul por defecto */
-            border-color: #3B82F6; /* Color del borde cuando está activo */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Sombra con un toque azul */
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
         }
     </style>
 </body>

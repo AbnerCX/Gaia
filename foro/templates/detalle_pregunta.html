@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,72 +7,70 @@
     <title>{{ pregunta.titulo }}</title>
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
-<body class="bg-gray-100 text-gray-800">
-    <div class="max-w-7xl mx-auto px-4 py-6">
+<body class="bg-gradient-to-br from-emerald-300 via-amber-200 to-brown-300 text-gray-800 min-h-screen w-full overflow-x-hidden">
+    <div class="max-w-4xl mx-auto px-4 py-6">
 
         <!-- Navegación -->
         <div class="flex justify-between items-center mb-6">
-            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700">
                 Volver
             </a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-red-700">
                     Cerrar sesión
                 </button>
             </form>
+
         </div>
 
-        <!-- Título de la Pregunta -->
-        <h1 class="text-3xl font-bold text-center mb-4">{{ pregunta.titulo }}</h1>
+        <h1 class="text-5xl font-extrabold text-center mb-10 mt-6 text-green-800 tracking-wide drop-shadow-md">{{ pregunta.titulo }}</h1>
+          <div class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
+            <p class="text-base mb-2">{{ pregunta.contenido }}</p>
+            <p class="text-base mb-2 ">Pregunta de: <strong>{{ pregunta.usuario.username }}</strong> - {{ pregunta.creado }}</p>
+          </div>
 
-        <!-- Contenido de la Pregunta -->
-        <p class="text-lg mb-4">{{ pregunta.contenido }}</p>
-        <p class="text-sm text-gray-600 mb-6">Pregunta de: <strong>{{ pregunta.usuario.username }}</strong> - {{ pregunta.creado }}</p>
+    <h2 class="text-4xl text-black font-semibold mt-6 mb-4">Respuestas</h2>
+     <ul class="space-y-4">
+        {% for respuesta in respuestas %}
+            <li class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
+                    <p class="text-sm text-black">{{ respuesta.contenido }}</p>
+                    <p class="text-sm text-black">Respondido por: <strong>{{ respuesta.usuario.username }}</strong> - {{ respuesta.creado }}</p>
 
-        <!-- Respuestas -->
-        <h2 class="text-2xl font-semibold mb-4">Respuestas</h2>
-        <ul class="space-y-4">
-            {% for respuesta in respuestas %}
-                <li class="bg-white p-4 rounded-lg shadow">
-                    <p class="text-lg">{{ respuesta.contenido }}</p>
-                    <p class="text-sm text-gray-600">Respondido por: <strong>{{ respuesta.usuario.username }}</strong> - {{ respuesta.creado }}</p>
-                </li>
-            {% empty %}
-                <li class="text-gray-600">No hay respuestas aún.</li>
-            {% endfor %}
-        </ul>
+            </li>
+        {% empty %}
+            <li class="text-black">No hay respuestas aún.</li>
+        {% endfor %}
+     </ul>
 
-        <!-- Formulario para Escribir una Respuesta -->
-        <h3 class="text-xl font-semibold mt-8 mb-4">Escribir una respuesta</h3>
-        <form method="post" class="bg-white p-6 rounded-lg shadow-lg">
+
+        <h3 class="text-xl text-black font-semibold mt-8 mb-4">Escribir una respuesta</h3>
+        <form method="post" class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
             {% csrf_token %}
             <div class="space-y-4">
-                <!-- Estiliza los campos del formulario -->
                 {{ form.as_p }}
             </div>
-            <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 mt-4 w-full">
+            <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-green-700 mt-4 w-full">
                 Responder
             </button>
         </form>
 
     </div>
 
-    <!-- Estilos personalizados para inputs -->
     <style>
         input[type="text"], textarea {
-            border: 1px solid #D1D5DB; /* Color gris claro para el borde */
-            border-radius: 0.5rem; /* Bordes redondeados */
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Sombra ligera */
-            padding: 0.5rem; /* Espaciado interno */
-            width: 100%; /* Tamaño completo */
-            background-color: #F9FAFB; /* Fondo claro */
+            border: 1px solid #D1D5DB;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            width: 100%;
+            background-color: #F9FAFB;
         }
 
         input[type="text"]:focus, textarea:focus {
-            outline: none; /* Elimina el borde azul por defecto */
-            border-color: #3B82F6; /* Color del borde cuando está activo */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Sombra con un toque azul */
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
         }
     </style>
 </body>
