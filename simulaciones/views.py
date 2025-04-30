@@ -34,9 +34,15 @@ def realizar_simulacion(request):
             precipitacion_ingresada=precipitacion
         )
 
-        # Evaluar si los valores ingresados son óptimos
         es_optimo = simulacion.evaluar_simulacion()
 
-        return render(request, "resultado_simulacion.html", {"simulacion": simulacion, "es_optimo": es_optimo})
+        # Obtener valores óptimos para mostrar
+        valores_optimos = ValoresOptimos.objects.filter(tipo_cultivo=simulacion.cultivo.tipo_cultivo).first()
+
+        return render(request, "resultado_simulacion.html", {
+            "simulacion": simulacion,
+            "es_optimo": es_optimo,
+            "valores_optimos": valores_optimos
+        })
 
     return render(request, "formulario_simulacion.html", {"campos": campos, "cultivos": cultivos})

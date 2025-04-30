@@ -36,6 +36,21 @@
             </ul>
         </div>
 
+        <!-- Valores Óptimos para el Cultivo -->
+        <h3 class="text-2xl font-semibold mb-4">Valores Óptimos para el Cultivo:</h3>
+        <div class="bg-gray-50 border border-black rounded-lg shadow-xl hover:shadow-2xl px-6 py-4 mb-6">
+            <ul class="space-y-2 text-gray-700">
+                <li><strong>Humedad mínima:</strong> {{ valores_optimos.humedad_minima }} %</li>
+                <li><strong>Humedad máxima:</strong> {{ valores_optimos.humedad_maxima }} %</li>
+                <li><strong>Temperatura mínima:</strong> {{ valores_optimos.temperatura_minima }} °C</li>
+                <li><strong>Temperatura máxima:</strong> {{ valores_optimos.temperatura_maxima }} °C</li>
+                <li><strong>Precipitación mínima:</strong> {{ valores_optimos.precipitacion_minima }} mm</li>
+                <li><strong>Precipitación máxima:</strong> {{ valores_optimos.precipitacion_maxima }} mm</li>
+            </ul>
+        </div>
+
+
+
         <!-- Botón para realizar una nueva simulación -->
         <div class="mt-10 text-center">
             <a href="{% url 'realizar_simulacion' %}" class="block bg-blue-500 text-white px-4 py-3 text-lg rounded-xl transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 hover:shadow-lg">
