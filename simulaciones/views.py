@@ -46,3 +46,9 @@ def realizar_simulacion(request):
         })
 
     return render(request, "formulario_simulacion.html", {"campos": campos, "cultivos": cultivos})
+
+@login_required(login_url='/login/')
+def historial_simulaciones(request):
+    simulaciones = Simulacion.objects.filter(usuario=request.user).order_by('-id')  # Más recientes primero
+    return render(request, "historial_simulaciones.html", {"simulaciones": simulaciones})
+

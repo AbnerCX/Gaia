@@ -1,0 +1,76 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Simulaciones</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-emerald-300 via-amber-200 to-brown-300 text-gray-800 min-h-screen w-full overflow-x-hidden">
+    <div class="max-w-6xl mx-auto px-4 py-8">
+
+        <!-- Navegación -->
+        <div class="flex justify-between items-center mb-6">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
+                Volver
+            </a>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-500 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md">
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
+
+        <!-- Título -->
+        <h1 class="text-5xl font-extrabold text-center mb-10 text-green-800 tracking-wide drop-shadow-md">Historial de Simulaciones</h1>
+
+        {% if simulaciones %}
+        <div class="max-w-4xl mx-auto overflow-x-auto bg-white rounded-lg shadow-xl border border-gray-300">
+            <table class="w-full divide-y divide-gray-200 text-center text-lg">
+                <thead class="bg-green-100 text-green-900 font-semibold">
+                    <tr>
+                        <th class="px-6 py-4">Campo</th>
+                        <th class="px-6 py-4">Cultivo</th>
+                        <th class="px-6 py-4">Humedad</th>
+                        <th class="px-6 py-4">Temperatura</th>
+                        <th class="px-6 py-4">Precipitación</th>
+                        <th class="px-6 py-4">¿Óptimo?</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-300">
+                    {% for simulacion in simulaciones %}
+                    <tr class="hover:bg-amber-100 transition-colors duration-200">
+                        <td class="px-6 py-4">{{ simulacion.campo.nombre }}</td>
+                        <td class="px-6 py-4">{{ simulacion.cultivo.tipo_cultivo.nombre }}</td>
+                        <td class="px-6 py-4">{{ simulacion.humedad_ingresada }}%</td>
+                        <td class="px-6 py-4">{{ simulacion.temperatura_ingresada }}°C</td>
+                        <td class="px-6 py-4">{{ simulacion.precipitacion_ingresada }}mm</td>
+                        <td class="px-6 py-4">
+                            {% if simulacion.es_optimo %}
+                                <span class="bg-green-500 text-white px-3 py-1 rounded-full font-semibold">Sí</span>
+                            {% else %}
+                                <span class="bg-red-500 text-white px-3 py-1 rounded-full font-semibold">No</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p class="text-center text-xl text-gray-700 mt-10">No tienes simulaciones registradas aún.</p>
+        {% endif %}
+
+        <!-- Botón volver a simular -->
+        <div class="mt-12 text-center">
+            <a href="{% url 'realizar_simulacion' %}" class="inline-block bg-green-500 text-white font-semibold px-48 py-3 text-lg rounded-lg transition-all duration-300 ease-in-out hover:bg-green-700 hover:scale-105 shadow-md">
+                Volver a realizar una simulación
+            </a>
+        </div>
+
+    </div>
+</body>
+</html>

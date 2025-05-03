@@ -81,7 +81,8 @@ class PlanificacionCultivo(FechasMixin):
         return f"Planificacion de {self.cultivo.nombre} en {self.campo.nombre} programada del {self.fecha_plantacion} al {self.fecha_cosecha}."
 
     def __str__(self):
-        return f"Planificacion de {self.cultivo.nombre} en {self.campo.nombre} ({self.get_estado_display()})"
+        return f"Planificación de {self.cultivo.tipo_cultivo.nombre} en {self.campo.nombre} ({self.get_estado_display()})"
+
 
     class Meta:
         db_table = "planificacion_cultivo"

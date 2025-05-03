@@ -111,6 +111,13 @@
                     <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Foro de preguntas y respuestas</span>
                     <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
                 </a>
+
+                <a href="{% url 'historial_simulaciones' %}" class="relative block p-4 w-fit mx-auto border-2 border-green-500 text-black font-semibold rounded-2xl text-center shadow-md overflow-hidden z-0 group transition-all duration-300 rounded-full">
+                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Ver Historial de Simulaciones</span>
+                    <span class="absolute inset-0 bg-transparent group-hover:bg-[#A0522D] transform scale-0 group-hover:scale-100 transition-all duration-500 ease-out origin-center z-0 rounded-full"></span>
+                </a>
+
+
             </div>
         {% else %}
             <p class="font-serif text-2xl text-center text-black font-extrabold mt-6 mb-6" style="position: relative; ">No has iniciado sesión.</p>
