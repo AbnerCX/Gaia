@@ -13,12 +13,12 @@
 
         <!-- Navegación -->
         <div class="flex justify-between items-center mb-6">
-            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all hover:scale-105 hover:shadow-lg">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-all hover:scale-105 hover:shadow-lg">
                 Volver
             </a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all hover:scale-105 hover:shadow-lg">
+                <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-all hover:scale-105 hover:shadow-lg">
                     Cerrar sesión
                 </button>
             </form>
@@ -30,36 +30,38 @@
         </h1>
 
         <!-- Lista de Fertilizantes -->
-        <h2 class="text-2xl font-semibold mb-4">Mis Fertilizantes Registrados</h2>
+        <h2 class="text-3xl text-black font-bold mb-4">Mis Fertilizantes Registrados</h2>
             <ul class="space-y-4">
                 {% for fertilizante in fertilizantes %}
                     <li class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-                        <strong class="text-lg">{{ fertilizante.nombre }}</strong>
-                        <p class="text-sm text-gray-600">Tipo: {{ fertilizante.tipo }}</p>
-                        <p class="text-sm text-gray-600">Dosis: {{ fertilizante.dosis }}</p>
-                        <p class="text-sm text-gray-600">Frecuencia: {{ fertilizante.get_frecuencia_display }}</p>
-                        <p class="text-sm text-gray-600">Campo: {{ fertilizante.campo.nombre }}</p>
+                        <strong class="text-xl text-black">{{ fertilizante.nombre }}</strong>
+                        <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Tipo:</strong></em> {{ fertilizante.tipo }}</p>
+                        <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Dosis:</strong></em> {{ fertilizante.dosis }}</p>
+                        <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Frecuencia:</strong></em> {{ fertilizante.get_frecuencia_display }}</p>
+                        <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Campo:</strong></em> {{ fertilizante.campo.nombre }}</p>
 
-                        <div class="mt-4 flex gap-2">
-                            <!-- Botón Editar -->
-                            <form method="POST" action="{% url 'admin_fertilizantes' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="editar_fertilizante_id" value="{{ fertilizante.id }}">
-                                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all hover:scale-105 hover:shadow-lg">
-                                    Editar
-                                </button>
-                            </form>
 
-                            <!-- Botón Eliminar -->
-                            <form method="POST" action="{% url 'admin_fertilizantes' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="eliminar_fertilizante_id" value="{{ fertilizante.id }}">
-                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all hover:scale-105 hover:shadow-lg"
-                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este fertilizante?');">
-                                    Eliminar
-                                </button>
-                            </form>
-                        </div>
+                           <div class="mt-4 space-x-2 flex gap-2">
+                                <!-- Botón Editar -->
+                                <form method="POST" action="{% url 'admin_fertilizantes' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="editar_fertilizante_id" value="{{ fertilizante.id }}">
+                                    <button type="submit" class="bg-blue-500 font-semibold text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
+                                        Editar
+                                    </button>
+                                </form>
+
+                                <!-- Botón Eliminar -->
+                                <form method="POST" action="{% url 'admin_fertilizantes' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="eliminar_fertilizante_id" value="{{ fertilizante.id }}">
+                                    <button type="submit" class="bg-red-500 font-semibold text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este fertilizante?');">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </div>
+
                     </li>
                 {% empty %}
                     <li class="text-gray-600">No se han creado fertilizantes.</li>
@@ -69,7 +71,7 @@
 
         <!-- Formulario para crear o editar fertilizante -->
         <div class="mt-8 bg-[#e0e0e0] p-6 rounded-lg shadow-xl hover:shadow-2xl">
-            <h2 class="text-2xl font-semibold mb-4">
+            <h2 class="text-2xl text-black font-semibold mb-4">
                 {% if editing %} Editar Fertilizante {% else %} Crear Nuevo Fertilizante {% endif %}
             </h2>
 
@@ -84,14 +86,15 @@
                     {{ form.as_p }}
                 </div>
 
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all hover:scale-105 hover:shadow-lg mt-2">
+        <div class="flex gap-4 mt-4">
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 font-semibold rounded-lg hover:bg-green-700 transition-all hover:scale-105 hover:shadow-lg mt-2">
                     {% if editing %} Guardar cambios {% else %} Crear fertilizante {% endif %}
                 </button>
             </form>
 
             {% if editing %}
-                <form method="GET" action="{% url 'admin_fertilizantes' %}" class="mt-4">
-                    <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-all hover:scale-105 hover:shadow-lg mt-2">
+                <form method="GET" action="{% url 'admin_fertilizantes' %}">
+                    <button type="submit" class="bg-gray-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-gray-700 transition-all hover:scale-105 hover:shadow-lg mt-2">
                         Cancelar edición
                     </button>
                 </form>

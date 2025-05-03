@@ -1,4 +1,4 @@
-{% load static %}
+        {% load static %}
 
 <!DOCTYPE html>
 <html lang="es">
@@ -16,48 +16,75 @@
 
         <!-- Mensaje de Resultado -->
         {% if es_optimo %}
-            <div class="bg-green-100 text-green-800 border border-green-300 rounded-lg shadow-lg px-6 py-4 mb-6 animate-pulse transition-all duration-300 ease-in-out">
+            <div class="text-center bg-green-100 text-green-800 border border-green-300 rounded-lg shadow-lg px-6 py-4 mb-6 animate-pulse transition-all duration-300 ease-in-out">
                 <p><strong>¡Éxito!</strong> Los valores ingresados son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
             </div>
         {% else %}
-            <div  class="bg-red-100 text-red-800 border border-red-300 rounded-lg shadow-lg px-6 py-4 mb-6 animate-pulse  transition-all duration-300 ease-in-out">
+            <div   <div class="text-center bg-red-100 text-red-800 border border-red-300 rounded-lg shadow-lg px-6 py-4 mb-6 animate-pulse transition-all duration-300 ease-in-out">
                 <p><strong>¡Advertencia!</strong> Los valores ingresados no son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
             </div>
         {% endif %}
 
-        <!-- Detalles de la Simulación -->
-        <h3 class="text-2xl font-semibold mb-4">Detalles de la Simulación:</h3>
-        <div class="bg-gray-50 border border-black rounded-lg shadow-xl hover:shadow-2xl px-6 py-4 mb-6">
-            <ul class="space-y-2 text-gray-700">
-                <li><strong>Campo:</strong> {{ simulacion.campo.nombre }}</li>
-                <li><strong>Humedad ingresada:</strong> {{ simulacion.humedad_ingresada }} %</li>
-                <li><strong>Temperatura ingresada:</strong> {{ simulacion.temperatura_ingresada }} °C</li>
-                <li><strong>Precipitación ingresada:</strong> {{ simulacion.precipitacion_ingresada }} mm</li>
-            </ul>
-        </div>
+                        <div class="flex flex-row gap-12  w-full justify-around">
 
-        <!-- Valores Óptimos para el Cultivo -->
-        <h3 class="text-2xl font-semibold mb-4">Valores Óptimos para el Cultivo:</h3>
-        <div class="bg-gray-50 border border-black rounded-lg shadow-xl hover:shadow-2xl px-6 py-4 mb-6">
-            <ul class="space-y-2 text-gray-700">
-                <li><strong>Humedad mínima:</strong> {{ valores_optimos.humedad_minima }} %</li>
-                <li><strong>Humedad máxima:</strong> {{ valores_optimos.humedad_maxima }} %</li>
-                <li><strong>Temperatura mínima:</strong> {{ valores_optimos.temperatura_minima }} °C</li>
-                <li><strong>Temperatura máxima:</strong> {{ valores_optimos.temperatura_maxima }} °C</li>
-                <li><strong>Precipitación mínima:</strong> {{ valores_optimos.precipitacion_minima }} mm</li>
-                <li><strong>Precipitación máxima:</strong> {{ valores_optimos.precipitacion_maxima }} mm</li>
-            </ul>
-        </div>
+                      <!-- Columna izquierda -->
+                      <div class="w-1/2 px-8 mb-6 min-w-0 ">
+                        <h3 class="text-2xl text-black text-center font-semibold mb-6">Detalles de la Simulación</h3>
+                        <div class="my-12 bg-gray-50 border border-black rounded-lg shadow-xl hover:shadow-2xl px-8 py-6 overflow-visible">
+                          <ul class="space-y-3">
+                            <li><strong class="text-black">Campo:</strong> <span class="text-gray-950">{{ simulacion.campo.nombre }}</span></li>
+                            <li><strong class="text-black">Humedad ingresada:</strong> <span class="text-gray-950">{{ simulacion.humedad_ingresada }} %</span></li>
+                            <li><strong class="text-black">Temperatura ingresada:</strong> <span class="text-gray-950">{{ simulacion.temperatura_ingresada }} °C</span></li>
+                            <li><strong class="text-black">Precipitación ingresada:</strong> <span class="text-gray-950">{{ simulacion.precipitacion_ingresada }} mm</span></li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <!-- Columna derecha -->
+                      <div class="w-1/2 px-8 mb-6 min-w-0  ">
+                        <h3 class="text-2xl text-black text-center font-semibold mb-6">Valores Optimos para el Cultivo</h3>
+                        <div class="bg-gray-50 border border-black rounded-lg shadow-xl hover:shadow-2xl px-8 py-6 space-y-6 text-gray-700 overflow-visible">
+
+                                <!-- Humedad -->
+
+                                <div class="text-black space-y-4">
+                                    <strong>Humedad</strong>
+                                    <div class="ml-8 flex space-x-8 justify-around">
+                                        <span>●<span class="text-black font-bold">Mín</span>: {{ valores_optimos.humedad_minima }}%</span>
+                                        <span>●<span class="text-black font-bold">Máx</span>: {{ valores_optimos.humedad_maxima }}%</span>
+                                    </div>
+                                </div>
+
+                                <!-- Temperatura -->
+                                <div class="text-black  space-y-8">
+                                    <strong>Temperatura</strong>
+                                    <div class="ml-8 flex space-x-8 justify-around">
+                                        <span>●<span class="text-black font-bold">Mín</span>: {{ valores_optimos.temperatura_minima }}°C</span>
+                                        <span>●<span class="text-black font-bold">Máx</span>: {{ valores_optimos.temperatura_maxima }}°C</span>
+                                    </div>
+                                </div>
+
+                                <!-- Precipitación -->
+                                <div class="text-black space-y-2">
+                                    <strong>Precipitación</strong>
+                                    <div class="ml-8 flex space-x-4 justify-around">
+                                        <span>●<span class="text-black font-bold">Mín</span>: {{ valores_optimos.precipitacion_minima }}mm</span>
+                                        <span>●<span class="text-black font-bold">Máx</span>: {{ valores_optimos.precipitacion_maxima }}mm</span>
+                                    </div>
+                                </div>
+
+                        </div>
+                        </div>
+                    </div>
 
 
 
         <!-- Botón para realizar una nueva simulación -->
-        <div class="mt-10 text-center">
-            <a href="{% url 'realizar_simulacion' %}" class="block bg-blue-500 text-white px-4 py-3 text-lg rounded-xl transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 hover:shadow-lg">
+        <div class="mt-4 text-center">
+            <a href="{% url 'realizar_simulacion' %}" class="inline-block bg-blue-500  text-white font-semibold px-48 py-3 text-lg rounded-xl transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 hover:shadow-lg">
                 Volver a realizar una simulación
             </a>
         </div>
     </div>
 </body>
 </html>
-

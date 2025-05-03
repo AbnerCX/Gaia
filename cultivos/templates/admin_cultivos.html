@@ -30,15 +30,15 @@
         </h1>
 
         <!-- Lista de Cultivos -->
-        <h2 class="text-2xl font-semibold mb-4">Mis Cultivos</h2>
+        <h2 class="text-3xl text-black font-bold mb-4">Mis Cultivos</h2>
         <ul class="space-y-4">
             {% for cultivo in cultivos %}
-                <li class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all ">
-                    <strong class="text-lg">{{ cultivo.tipo_cultivo.nombre }}</strong>
-                    <p class="text-sm text-gray-600">Campo: {{ cultivo.campo.nombre }}</p>
-                    <p class="text-sm text-gray-600">Tipo de suelo: {{ cultivo.get_tipo_suelo_display }}</p>
-                    <p class="text-sm text-gray-600">Temporada ideal: {{ cultivo.get_temporada_ideal_display }}</p>
-                    <p class="text-sm text-gray-600">Requerimientos: {{ cultivo.requerimentos }}</p>
+                <li class="bg-[#e0e0e0]  p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all ">
+                    <strong class="text-xl text-black">{{ cultivo.tipo_cultivo.nombre }}</strong>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Campo:</strong></em> {{ cultivo.campo.nombre }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Tipo de suelo:</strong></em> {{ cultivo.get_tipo_suelo_display }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Temporada ideal:</strong></em> {{ cultivo.get_temporada_ideal_display }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Requerimientos:</strong></em> {{ cultivo.requerimentos }}</p>
 
 
                     <div class="mt-4 flex flex-wrap gap-2">
@@ -67,36 +67,54 @@
             {% endfor %}
         </ul>
 
-        <!-- Formulario para crear o editar cultivo -->
+       <!-- Formulario para crear o editar cultivo -->
         <div class="mt-8 bg-[#e0e0e0] p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-            <h2 class="text-2xl font-semibold mb-4">
+            <h2 class="text-2xl text-black font-semibold mb-4">
                 {% if editing %} Editar Cultivo {% else %} Crear Nuevo Cultivo {% endif %}
             </h2>
 
-            <form method="POST" action="{% url 'admin_cultivos' %}">
+            <form method="POST" action="{% url 'admin_cultivos' %}" >
                 {% csrf_token %}
-
                 {% if cultivo_a_editar %}
                     <input type="hidden" name="cultivo_id" value="{{ cultivo_a_editar.id }}">
                 {% endif %}
 
                 <div class="space-y-4">
-                    {{ form.as_p|safe }}
+                        {% for field in form %}
+                        <div class="mb-4">
+                            <!-- Etiqueta (label) -->
+                            <label class="block text-sm font-semibold text-black mb-1" for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
 
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-green-700 hover:scale-105 shadow-md">
-                    {% if editing %} Guardar cambios {% else %} Crear cultivo {% endif %}
-                </button>
-            </form>
+                            <!-- Campo de formulario -->
+                            {{ field }}
 
-            {% if editing %}
-                <form method="GET" action="{% url 'admin_cultivos' %}" class="mt-4">
-                    <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 shadow-md">
-                        Cancelar edición
-                    </button>
-                </form>
-            {% endif %}
-        </div>
-    </div>
+                            <!-- Mensajes de error -->
+                            {% if field.errors %}
+                            <p class="text-red-600 text-sm font-semibold italic mt-1">
+                                {{ field.errors|striptags }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                <div class="flex gap-4 mt-4">
+                        <button type="submit" class="bg-green-500 text-white px-12 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-green-700 hover:scale-105 shadow-md">
+                            {% if editing %} Guardar cambios {% else %} Crear cultivo {% endif %}
+                        </button>
+                    </form>
+
+                    {% if editing %}
+                        <form method="GET" action="{% url 'admin_cultivos' %}">
+                            <button type="submit" class="bg-gray-500 text-white px-12 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 shadow-md">
+                                Cancelar edición
+                            </button>
+                        </form>
+                    {% endif %}
+                 </div>
+             </div>
 
     <style>
         input[type="text"], input[type="number"], textarea, select, .requerimientos-campo {

@@ -13,12 +13,12 @@
 
         <!-- Navegación -->
         <div class="flex justify-between items-center mb-6">
-            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
                 Volver
             </a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md">
+                <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md">
                     Cerrar sesión
                 </button>
             </form>
@@ -30,22 +30,22 @@
         </h1>
 
         <!-- Lista de Campos -->
-        <h2 class="text-2xl font-semibold mb-4">Mis Campos</h2>
+        <h2 class="text-3xl text-black font-bold mb-4">Mis Campos</h2>
         <ul class="space-y-4">
             {% for campo in campos %}
                 <li class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-                    <strong class="text-lg">{{ campo.nombre }}</strong>
-                    <p class="text-sm text-gray-600">Latitud: {{ campo.latitud }}, Longitud: {{ campo.longitud }}</p>
-                    <p class="text-sm text-gray-600">Tamaño: {{ campo.tamano }} ha</p>
-                    <p class="text-xs text-gray-500">Creado: {{ campo.creado }}</p>
-                    <p class="text-xs text-gray-500">Última actualización: {{ campo.ultima_actualizacion }}</p>
+                    <strong class="text-xl text-black">{{ campo.nombre }}</strong>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Latitud:</strong></em> {{ campo.latitud }}, Longitud: {{ campo.longitud }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Tamaño:</strong></em> {{ campo.tamano }} ha</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Creado:</strong></em> {{ campo.creado }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Ultima actualización:</strong></em> {{ campo.ultima_actualizacion }}</p>
 
                     <div class="mt-4 space-x-2 flex gap-2">
                         <!-- Botón Editar -->
                         <form method="POST" action="{% url 'admin_campos' %}">
                             {% csrf_token %}
                             <input type="hidden" name="campo_id" value="{{ campo.id }}">
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
+                            <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
                                 Editar
                             </button>
                         </form>
@@ -54,7 +54,7 @@
                         <form method="POST" action="{% url 'admin_campos' %}">
                             {% csrf_token %}
                             <input type="hidden" name="eliminar_id" value="{{ campo.id }}">
-                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md"
+                            <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md"
                                 onclick="return confirm('¿Estás seguro de que deseas eliminar este campo?');">
                                 Eliminar
                             </button>
@@ -68,40 +68,60 @@
 
         <!-- Formulario para crear o editar campo -->
        <div class="mt-8 bg-[#e0e0e0] p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all ">
-            <h2 class="text-2xl font-semibold mb-4">
+            <h2 class="text-2xl text-black font-semibold mb-4">
                 {% if editing %} Editar Campo {% else %} Crear Nuevo Campo {% endif %}
             </h2>
 
-            <form method="POST" action="{% url 'admin_campos' %}">
+            <form method="POST" action="{% url 'admin_campos' %}" style="color: black;">
                 {% csrf_token %}
 
                 {% if campo_a_editar %}
                     <input type="hidden" name="campo_id" value="{{ campo_a_editar.id }}">
                 {% endif %}
 
-                <div class="space-y-4">
-                    {{ form.as_p|safe }}
-                </div>
+                 <div class="space-y-4">
+            <div class="space-y-4">
+                {% for field in form %}
+                    <div class="mb-4">
+                        <!-- Etiqueta (label) -->
+                        <label class="block text-sm font-semibold text-black mb-1" for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
 
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-green-700 hover:scale-105 shadow-md">
+                        <!-- Campo de formulario -->
+                        {{ field }}
+
+                        <!-- Mensajes de error -->
+                        {% if field.errors %}
+                            <p class="text-red-600 text-sm font-semibold italic mt-1">
+                                {{ field.errors|striptags }}
+                            </p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+              <div class="flex gap-4 mt-4">
+                <button type="submit" class="bg-green-500 text-white font-semibold px-12 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md mt-2">
                     {% if editing %} Guardar cambios {% else %} Crear campo {% endif %}
                 </button>
             </form>
 
             {% if editing %}
-                <form method="GET" action="{% url 'admin_campos' %}" class="mt-4">
-                    <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 shadow-md">
+                <form method="GET" action="{% url 'admin_campos' %}">
+                    <button type="submit" class="bg-gray-500 text-white font-semibold px-12 py-2 rounded-lg hover:bg-gray-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md mt-2">
                         Cancelar edición
                     </button>
                 </form>
             {% endif %}
         </div>
 
-    </div>
 
     <style>
         input[type="text"], input[type="number"], textarea, select {
            background-color: white;
+            color: black;
             border: 2px solid black;
             border-radius: 0.5rem;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);

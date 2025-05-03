@@ -13,12 +13,12 @@
 
         <!-- Navegación -->
         <div class="flex justify-between items-center mb-6">
-            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
                 Volver
             </a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md">
+                <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md">
                     Cerrar sesión
                 </button>
             </form>
@@ -30,22 +30,22 @@
         </h1>
 
         <!-- Lista de Pesticidas -->
-        <h2 class="text-2xl font-semibold mb-4">Mis Pesticidas Registrados</h2>
+        <h2 class="text-3xl text-black font-bold mb-4">Mis Pesticidas Registrados</h2>
         <ul class="space-y-4">
             {% for pesticida in pesticidas %}
                 <li class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-                    <strong class="text-lg">{{ pesticida.nombre }}</strong>
-                    <p class="text-sm text-gray-600">Tipo: {{ pesticida.tipo }}</p>
-                    <p class="text-sm text-gray-600">Dosis: {{ pesticida.dosis }}</p>
-                    <p class="text-sm text-gray-600">Frecuencia: {{ pesticida.get_frecuencia_display }}</p>
-                    <p class="text-sm text-gray-600">Campo: {{ pesticida.campo.nombre }}</p>
+                    <strong class="text-xl text-black">{{ pesticida.nombre }}</strong>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Tipo:</strong></em> {{ pesticida.tipo }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Dosis:</strong></em> {{ pesticida.dosis }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Frecuencia:</strong></em> {{ pesticida.get_frecuencia_display }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Campo:</strong></em> {{ pesticida.campo.nombre }}</p>
 
                     <div class="mt-4 flex gap-2">
                         <!-- Botón Editar -->
                         <form method="POST" action="{% url 'admin_pesticidas' %}">
                             {% csrf_token %}
                             <input type="hidden" name="editar_pesticida_id" value="{{ pesticida.id }}">
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
+                            <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md">
                                 Editar
                             </button>
                         </form>
@@ -54,7 +54,7 @@
                         <form method="POST" action="{% url 'admin_pesticidas' %}">
                             {% csrf_token %}
                             <input type="hidden" name="eliminar_pesticida_id" value="{{ pesticida.id }}">
-                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md"
+                            <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg transition-all duration-300 ease-in-out hover:bg-red-700 hover:scale-105 shadow-md"
                                 onclick="return confirm('¿Estás seguro de que deseas eliminar este pesticida?');">
                                 Eliminar
                             </button>
@@ -68,11 +68,11 @@
 
         <!-- Formulario para crear o editar pesticida -->
         <div class="mt-8 bg-[#e0e0e0] p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-            <h2 class="text-2xl font-semibold mb-4">
+            <h2 class="text-2xl text-black font-semibold mb-4">
                 {% if editing %} Editar Pesticida {% else %} Crear Nuevo Pesticida {% endif %}
             </h2>
 
-            <form method="POST" action="{% url 'admin_pesticidas' %}">
+            <form method="POST" action="{% url 'admin_pesticidas' %}" style="color: black;">
                 {% csrf_token %}
 
                 {% if pesticida_a_editar %}
@@ -83,14 +83,15 @@
                     {{ form.as_p }}
                 </div>
 
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-green-700 hover:scale-105 shadow-md">
+        <div class="flex gap-4 mt-4">
+                <button type="submit" class="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-green-700 hover:scale-105 shadow-md">
                     {% if editing %} Guardar cambios {% else %} Crear pesticida {% endif %}
                 </button>
             </form>
 
             {% if editing %}
-                <form method="GET" action="{% url 'admin_pesticidas' %}" class="mt-4">
-                    <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 shadow-md">
+                <form method="GET" action="{% url 'admin_pesticidas' %}">
+                    <button type="submit" class="bg-gray-500 text-white font-semibold px-4 py-2 rounded-lg mt-2 transition-all duration-300 ease-in-out hover:bg-gray-700 hover:scale-105 shadow-md">
                         Cancelar edición
                     </button>
                 </form>

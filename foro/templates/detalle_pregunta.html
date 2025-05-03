@@ -12,31 +12,30 @@
 
         <!-- Navegación -->
         <div class="flex justify-between items-center mb-6">
-            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700">
                 Volver
             </a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-red-700">
+                <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-red-700">
                     Cerrar sesión
                 </button>
             </form>
 
         </div>
 
-        <h1 class="text-5xl font-extrabold text-center mb-10 mt-6 text-green-800 tracking-wide drop-shadow-md">{{ pregunta.titulo }}</h1>
-          <div class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-            <p class="text-base mb-2">{{ pregunta.contenido }}</p>
-            <p class="text-base mb-2 ">Pregunta de: <strong>{{ pregunta.usuario.username }}</strong> - {{ pregunta.creado }}</p>
+        <h1 class="text-5xl font-extrabold text-center mb-10 mt-6  text-green-800 tracking-wide drop-shadow-md">{{ pregunta.titulo }}</h1>
+          <div class="bg-[#e0e0e0] p-4  rounded-lg shadow-xl hover:shadow-2xl transition-all">
+            <p class="text-lg text-black mb-2">{{ pregunta.contenido }}</p>
+            <p class="text-sm text-gray-600 "><em class="text-gray-800">Pregunta de: <span class="text-black font-extrabold">{{ pregunta.usuario.username }}</span> - {{ pregunta.creado }}</em> </p>
           </div>
 
-    <h2 class="text-4xl text-black font-semibold mt-6 mb-4">Respuestas</h2>
-     <ul class="space-y-4">
+    <h2 class="text-3xl text-black font-bold  mt-6 mb-4">Respuestas</h2>
+     <ul class="space-y-4 ">
         {% for respuesta in respuestas %}
-            <li class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-                    <p class="text-sm text-black">{{ respuesta.contenido }}</p>
-                    <p class="text-sm text-black">Respondido por: <strong>{{ respuesta.usuario.username }}</strong> - {{ respuesta.creado }}</p>
-
+            <li class=" bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
+                    <p class="text-lg text-black mb-2">{{ respuesta.contenido }}</p>
+                   <p class="text-sm text-black"><em class="text-gray-800">Respondido por: <span class="text-black font-extrabold">{{ pregunta.usuario.username }}</span> - {{ respuesta.creado }}</em></p>
             </li>
         {% empty %}
             <li class="text-black">No hay respuestas aún.</li>
@@ -44,13 +43,14 @@
      </ul>
 
 
-        <h3 class="text-xl text-black font-semibold mt-8 mb-4">Escribir una respuesta</h3>
-        <form method="post" class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
+        <h3 class="text-3xl text-black font-bold  mt-8 mb-4">Escribir una respuesta</h3>
+       <form method="post" class="text-2xl text-black font-semibold  mt-8 mb-12 bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
             {% csrf_token %}
+
             <div class="space-y-4">
                 {{ form.as_p }}
             </div>
-            <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-green-700 mt-4 w-full">
+            <button type="submit" class="block mx-auto bg-green-500 text-white font-semibold px-48 py-2 rounded-lg hover:bg-green-700 hover:scale-105 transition-all duration-300 ease-in-out shadow-md  mt-2">
                 Responder
             </button>
         </form>
@@ -59,6 +59,7 @@
 
     <style>
         input[type="text"], textarea {
+
             border: 1px solid #D1D5DB;
             border-radius: 0.5rem;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -72,6 +73,11 @@
             border-color: #3B82F6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
         }
+         form p label {
+        display: block;
+        margin-bottom: .75rem;
+        font-size: 1.5rem;
+    }
     </style>
 </body>
 </html>

@@ -13,12 +13,12 @@
 
         <!-- Navegación -->
         <div class="flex justify-between items-center mb-6">
-            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md">
                 Volver
             </a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md">
+                <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md">
                     Cerrar sesión
                 </button>
             </form>
@@ -30,21 +30,21 @@
         </h1>
 
         <!-- Lista de Plagas -->
-        <h2 class="text-2xl font-semibold mb-4">Mis Plagas Registradas</h2>
+        <h2 class="text-3xl text-black font-bold mb-4">Mis Plagas Registradas</h2>
         <ul class="space-y-4">
             {% for plaga in plagas %}
-                <li class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-                    <strong class="text-lg">{{ plaga.nombre }}</strong>
-                    <p class="text-sm text-gray-600">Campo afectado: {{ plaga.cultivo.campo.nombre }}</p>
-                    <p class="text-sm text-gray-600">Efectos: {{ plaga.efectos }}</p>
-                    <p class="text-sm text-gray-600">Tratamiento: {{ plaga.tratamiento }}</p>
+                <li class="bg-[#e0e0e0] text-black p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
+                    <strong class="text-lg font-bold ">{{ plaga.nombre }}</strong>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Campo afectado:</strong></em> {{ plaga.cultivo.campo.nombre }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Efectos:</strong></em> {{ plaga.efectos }}</p>
+                    <p class="text-sm text-gray-600"><strong><em class="text-gray-800">Tratamiento:</strong></em> {{ plaga.tratamiento }}</p>
 
                     <div class="mt-4 flex gap-2">
                         <!-- Botón Editar -->
                         <form method="POST" action="{% url 'admin_plagas' %}">
                             {% csrf_token %}
                             <input type="hidden" name="plaga_id" value="{{ plaga.id }}">
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md">
+                            <button type="submit" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md">
                                 Editar
                             </button>
                         </form>
@@ -53,7 +53,7 @@
                         <form method="POST" action="{% url 'admin_plagas' %}">
                             {% csrf_token %}
                             <input type="hidden" name="eliminar_plaga_id" value="{{ plaga.id }}">
-                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md"
+                            <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md"
                                 onclick="return confirm('¿Estás seguro de que deseas eliminar esta plaga?');">
                                 Eliminar
                             </button>
@@ -65,37 +65,60 @@
             {% endfor %}
         </ul>
 
-        <!-- Formulario para crear o editar plaga -->
-        <div class="mt-8 bg-[#e0e0e0] p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-            <h2 class="text-2xl font-semibold mb-4">
-                {% if editing %} Editar Plaga {% else %} Crear Nueva Plaga {% endif %}
-            </h2>
+       <!-- Formulario para crear o editar plaga -->
+            <div class="mt-8 bg-[#e0e0e0] p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all">
+                <h2 class="text-2xl text-black font-semibold mb-4">
+                    {% if editing %} Editar Plaga {% else %} Crear Nueva Plaga {% endif %}
+                </h2>
 
-            <form method="POST" action="{% url 'admin_plagas' %}">
-                {% csrf_token %}
+                <form method="POST" action="{% url 'admin_plagas' %}" style="color: black;">
+                    {% csrf_token %}
 
-                {% if plaga_a_editar %}
-                    <input type="hidden" name="plaga_id" value="{{ plaga_a_editar.id }}">
-                {% endif %}
+                    {% if plaga_a_editar %}
+                        <input type="hidden" name="plaga_id" value="{{ plaga_a_editar.id }}">
+                    {% endif %}
 
-                <div class="space-y-4">
-                    {{ form.as_p }}
-                </div>
+                    <div class="space-y-4">
+                        <div class="space-y-4">
+                            {% for field in form %}
+                                <div class="mb-4">
+                                    <!-- Etiqueta (label) -->
+                                    <label class="block text-sm font-semibold text-black mb-1" for="{{ field.id_for_label }}">
+                                        {{ field.label }}
+                                    </label>
 
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md mt-2">
+                                    <!-- Campo de formulario -->
+                                    {{ field }}
+
+                                    <!-- Mensajes de error -->
+                                    {% if field.errors %}
+                                        <p class="text-red-600 text-sm font-semibold italic mt-1">
+                                            {{ field.errors|striptags }}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+
+
+        <div class="flex gap-4 mt-4">
+                <button type="submit" class="bg-green-500 text-white font-semibold px-12 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md mt-2">
                     {% if editing %} Guardar cambios {% else %} Crear plaga {% endif %}
                 </button>
             </form>
 
             {% if editing %}
-                <form method="GET" action="{% url 'admin_plagas' %}" class="mt-4">
-                    <button type="submit" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md mt-2">
+                <form method="GET" action="{% url 'admin_plagas' %}">
+                    <button type="submit" class="bg-gray-500 text-white font-semibold px-12 py-2 rounded-lg hover:bg-gray-700 transition-all duration-300 ease-in-out hover:scale-105 shadow-md mt-2">
                         Cancelar edición
                     </button>
                 </form>
             {% endif %}
         </div>
-    </div>
+
 
     <style>
         input[type="text"], input[type="number"], textarea, select {

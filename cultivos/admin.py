@@ -18,7 +18,7 @@ class CultivoAdmin(admin.ModelAdmin):
     list_filter = ("tipo_suelo", "temporada_ideal", "campo")
     search_fields = ('tipo_cultivo__nombre', 'campo__nombre')
 
-    # Método para obtener el nombre del tipo de cultivo
+    # Metodo para obtener el nombre del tipo de cultivo
     def get_tipo_cultivo_nombre(self, obj):
         return obj.tipo_cultivo.nombre
     get_tipo_cultivo_nombre.admin_order_field = 'tipo_cultivo'  # Permitir ordenar por este campo
@@ -49,4 +49,4 @@ class PesticidasAdmin(admin.ModelAdmin):
 class FertilizantesAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'tipo', 'dosis', 'campo', 'creado', 'ultima_actualizacion') 
     search_fields = ('nombre', 'campo__nombre') 
-    list_filter = ('campo', 'tipo', 'creado', 'ultima_actualizacion') 
+    list_filter = ('campo', 'tipo', 'creado', 'ultima_actualizacion')

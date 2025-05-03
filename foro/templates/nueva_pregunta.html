@@ -12,27 +12,28 @@
 
         <!-- Navegación -->
         <div class="flex justify-between items-center mb-6">
-            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700">
                 Volver
             </a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-red-700">
+                <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-red-700">
                     Cerrar sesión
                 </button>
             </form>
         </div>
 
         <!-- Título -->
-        <h1 class="text-5xl font-extrabold text-center mb-10 text-green-800 tracking-wide drop-shadow-md">Nueva Pregunta</h1>
+        <h1 class="text-5xl font-extrabold text-center mt-1 mb-10 text-green-800 tracking-wide drop-shadow-md">Nueva Pregunta</h1>
 
         <!-- Formulario para Nueva Pregunta -->
-        <form method="post" class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
+        <form method="post" class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all" style="color: black;">
             {% csrf_token %}
+
             <div class="space-y-4">
                 {{ form.as_p }}
             </div>
-            <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg w-full shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700 mt-4">
+            <button type="submit" class="block mx-auto justify-around bg-blue-500 text-white font-semibold px-56 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700 mt-2">
                 Publicar
             </button>
         </form>

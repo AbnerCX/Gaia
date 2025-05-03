@@ -12,12 +12,12 @@
 
         <!-- Navegación -->
         <div class="flex justify-between items-center mb-6">
-            <a href="{% url 'home' %}" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700">
+            <a href="{% url 'home' %}" class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700">
                 Volver
             </a>
             <form method="POST" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-red-700">
+                <button type="submit" class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-red-700">
                     Cerrar sesión
                 </button>
             </form>
@@ -25,18 +25,20 @@
 
         <h1 class="text-5xl font-extrabold text-center mb-10 text-green-800 tracking-wide drop-shadow-md">Preguntas Recientes</h1>
 
-        <a href="{% url 'nueva_pregunta' %}" class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700 mb-6 inline-block">
+        <a href="{% url 'nueva_pregunta' %}" class="bg-blue-500 text-white font-semibold px-16 py-2 rounded-lg shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700 mb-6 inline-block">
             Nueva Pregunta
         </a>
 
         <ul class="space-y-4">
             {% for pregunta in preguntas %}
-                <li color class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
-                    <a href="{% url 'detalle_pregunta' pregunta.pk %}" class="text-lg font-semibold text-blue-600 hover:underline">
+
+                <li color class=" bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all" >
+                    <a href="{% url 'detalle_pregunta' pregunta.pk %}" class="text-lg  font-bold text-green-700 hover:underline">
                         {{ pregunta.titulo }}
                     </a>
-                    <p class="text-sm text-gray-600">{{ pregunta.usuario.username }} - {{ pregunta.creado }}</p>
+                    <p class="text-sm text-gray-600"><em><span class="text-black font-semibold">{{ pregunta.usuario.username }}</span> - {{ pregunta.creado }}</em></p>
                 </li>
+
             {% empty %}
                 <li class="text-gray-600">No hay preguntas recientes.</li>
             {% endfor %}
