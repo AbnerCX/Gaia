@@ -97,7 +97,7 @@ class Plagas(FechasMixin):
     tratamiento = models.TextField()
 
     def __str__(self):
-        return f"{self.nombre} en {self.cultivo.nombre}"
+        return f"{self.nombre} en {self.cultivo.tipo_cultivo.nombre}"
     
     class Meta:
         db_table = "plagas"

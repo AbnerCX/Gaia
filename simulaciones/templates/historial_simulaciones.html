@@ -7,6 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Simulaciones</title>
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
+
+   <style>
+    thead {
+        background: linear-gradient(to right, #7C9D46, #A0522D);
+        color: white;
+        font-weight: bold;
+    }
+
+    .fila-optima {
+        transition: background-color 0.3s ease;
+    }
+
+    .fila-optima:hover {
+        background-color: #bbf7d0;
+    }
+
+    .fila-no-optima {
+        transition: background-color 0.3s ease;
+    }
+
+    .fila-no-optima:hover {
+        background-color: #fecaca;
+    }
+</style>
+
 </head>
 <body class="bg-gradient-to-br from-emerald-300 via-amber-200 to-brown-300 text-gray-800 min-h-screen w-full overflow-x-hidden">
     <div class="max-w-6xl mx-auto px-4 py-8">
@@ -28,9 +53,11 @@
         <h1 class="text-5xl font-extrabold text-center mb-10 text-green-800 tracking-wide drop-shadow-md">Historial de Simulaciones</h1>
 
         {% if simulaciones %}
-        <div class="max-w-4xl mx-auto overflow-x-auto bg-white rounded-lg shadow-xl border border-gray-300">
-            <table class="w-full divide-y divide-gray-200 text-center text-lg">
-                <thead class="bg-green-100 text-green-900 font-semibold">
+        <div class="max-w-4xl mx-auto overflow-x-auto bg-white rounded-lg shadow-xl border border-gray-300 mt-12">
+
+            <table class="w-full divide-y divide-gray-200 text-center text-lg ">
+
+                <thead>
                     <tr>
                         <th class="px-6 py-4">Campo</th>
                         <th class="px-6 py-4">Cultivo</th>
@@ -40,9 +67,9 @@
                         <th class="px-6 py-4">¿Óptimo?</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-300">
+                 <tbody class="divide-y divide-gray-500">
                     {% for simulacion in simulaciones %}
-                    <tr class="hover:bg-amber-100 transition-colors duration-200">
+                    <tr class="{% if simulacion.es_optimo %}fila-optima{% else %}fila-no-optima{% endif %}">
                         <td class="px-6 py-4">{{ simulacion.campo.nombre }}</td>
                         <td class="px-6 py-4">{{ simulacion.cultivo.tipo_cultivo.nombre }}</td>
                         <td class="px-6 py-4">{{ simulacion.humedad_ingresada }}%</td>
@@ -59,6 +86,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+
         </div>
         {% else %}
             <p class="text-center text-xl text-gray-700 mt-10">No tienes simulaciones registradas aún.</p>
@@ -66,7 +94,7 @@
 
         <!-- Botón volver a simular -->
         <div class="mt-12 text-center">
-            <a href="{% url 'realizar_simulacion' %}" class="inline-block bg-green-500 text-white font-semibold px-48 py-3 text-lg rounded-lg transition-all duration-300 ease-in-out hover:bg-green-700 hover:scale-105 shadow-md">
+            <a href="{% url 'realizar_simulacion' %}" class="inline-block bg-green-500 text-white font-semibold px-28 py-3 text-lg rounded-lg transition-all duration-300 ease-in-out hover:bg-green-700 hover:scale-105 shadow-md">
                 Volver a realizar una simulación
             </a>
         </div>
@@ -74,3 +102,4 @@
     </div>
 </body>
 </html>
+

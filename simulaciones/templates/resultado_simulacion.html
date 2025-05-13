@@ -7,10 +7,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultado de la Simulación</title>
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
+<style>
+    .button-anim {
+        display: inline-block;
+        background-color: #935116;
+        color: #fff;
+        font-weight: 600;
+        padding: 0.5rem 1.5rem;
+        font-size: 0.875rem;
+        border-radius: 0.75rem;
+        border: 3px solid #ef4444;
+        cursor: pointer;
+        text-decoration: none;
+        margin-left: 2rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease-in-out;
+        z-index: 1;
+    }
+
+    .button-anim:hover {
+        background-color: #8b5a2b;
+        border-color: transparent;
+        color: #000;
+        transform: scale(1.05) translateY(-3px);
+        box-shadow: 0 6px 20px rgba(147, 81, 22, 0.5), 0 0 15px rgba(147, 81, 22, 0.3);
+    }
+
+    .button-anim span {
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .button-anim::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(74, 222, 128, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.5s ease, height 0.5s ease;
+        z-index: 1;
+    }
+
+    .button-anim:hover::before {
+        width: 200px;
+        height: 200px;
+    }
+
+    .button-anim:active {
+        transform: scale(0.95) translateY(0);
+        box-shadow: 0 2px 10px rgba(147, 81, 22, 0.2);
+    }
+
+    .button-anim::after {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        border-radius: 0.75rem;
+        background: linear-gradient(45deg, #6b4e31, #d2b48c);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        z-index: -1;
+    }
+
+    .button-anim:hover::after {
+        opacity: 1;
+    }
+</style>
 </head>
 <body class="bg-gradient-to-br from-emerald-300 via-amber-200 to-brown-300 text-gray-800 min-h-screen w-full overflow-x-hidden">
     <div class="max-w-4xl mx-auto px-4 py-6">
-
         <!-- Título -->
         <h1 class="text-5xl font-bold text-center mb-10 text-green-800 tracking-wide drop-shadow-md mt-6">Resultado de la Simulación</h1>
 
@@ -20,71 +92,68 @@
                 <p><strong>¡Éxito!</strong> Los valores ingresados son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
             </div>
         {% else %}
-            <div   <div class="text-center bg-red-100 text-red-800 border border-red-300 rounded-lg shadow-lg px-6 py-4 mb-6 animate-pulse transition-all duration-300 ease-in-out">
+            <div class="text-center bg-red-100 text-red-800 border border-red-300 rounded-lg shadow-lg px-6 py-4 mb-6 animate-pulse transition-all duration-300 ease-in-out">
                 <p><strong>¡Advertencia!</strong> Los valores ingresados no son óptimos para el cultivo <strong>{{ simulacion.cultivo.get_tipo_cultivo_display }}</strong>.</p>
             </div>
         {% endif %}
 
-                        <div class="flex flex-row gap-12  w-full justify-around">
+        <div class="flex flex-row gap-12 w-full justify-around">
+            <!-- Columna izquierda -->
+            <div class="w-1/2 px-8 mb-6 min-w-0">
+                <h3 class="text-2xl text-black text-center font-semibold mb-6">Detalles de la Simulación</h3>
+                <div class="my-12 bg-gray-50 border border-black rounded-lg shadow-xl hover:shadow-2xl px-8 py-6 overflow-visible">
+                    <ul class="space-y-3">
+                        <li><strong class="text-black">Campo:</strong> <span class="text-gray-950">{{ simulacion.campo.nombre }}</span></li>
+                        <li><strong class="text-black">Humedad ingresada:</strong> <span class="text-gray-950">{{ simulacion.humedad_ingresada }} %</span></li>
+                        <li><strong class="text-black">Temperatura ingresada:</strong> <span class="text-gray-950">{{ simulacion.temperatura_ingresada }} °C</span></li>
+                        <li><strong class="text-black">Precipitación ingresada:</strong> <span class="text-gray-950">{{ simulacion.precipitacion_ingresada }} mm</span></li>
+                    </ul>
+                </div>
+            </div>
 
-                      <!-- Columna izquierda -->
-                      <div class="w-1/2 px-8 mb-6 min-w-0 ">
-                        <h3 class="text-2xl text-black text-center font-semibold mb-6">Detalles de la Simulación</h3>
-                        <div class="my-12 bg-gray-50 border border-black rounded-lg shadow-xl hover:shadow-2xl px-8 py-6 overflow-visible">
-                          <ul class="space-y-3">
-                            <li><strong class="text-black">Campo:</strong> <span class="text-gray-950">{{ simulacion.campo.nombre }}</span></li>
-                            <li><strong class="text-black">Humedad ingresada:</strong> <span class="text-gray-950">{{ simulacion.humedad_ingresada }} %</span></li>
-                            <li><strong class="text-black">Temperatura ingresada:</strong> <span class="text-gray-950">{{ simulacion.temperatura_ingresada }} °C</span></li>
-                            <li><strong class="text-black">Precipitación ingresada:</strong> <span class="text-gray-950">{{ simulacion.precipitacion_ingresada }} mm</span></li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <!-- Columna derecha -->
-                      <div class="w-1/2 px-8 mb-6 min-w-0  ">
-                        <h3 class="text-2xl text-black text-center font-semibold mb-6">Valores Optimos para el Cultivo</h3>
-                        <div class="bg-gray-50 border border-black rounded-lg shadow-xl hover:shadow-2xl px-8 py-6 space-y-6 text-gray-700 overflow-visible">
-
-                                <!-- Humedad -->
-
-                                <div class="text-black space-y-4">
-                                    <strong>Humedad</strong>
-                                    <div class="ml-8 flex space-x-8 justify-around">
-                                        <span>●<span class="text-black font-bold">Mín</span>: {{ valores_optimos.humedad_minima }}%</span>
-                                        <span>●<span class="text-black font-bold">Máx</span>: {{ valores_optimos.humedad_maxima }}%</span>
-                                    </div>
-                                </div>
-
-                                <!-- Temperatura -->
-                                <div class="text-black  space-y-8">
-                                    <strong>Temperatura</strong>
-                                    <div class="ml-8 flex space-x-8 justify-around">
-                                        <span>●<span class="text-black font-bold">Mín</span>: {{ valores_optimos.temperatura_minima }}°C</span>
-                                        <span>●<span class="text-black font-bold">Máx</span>: {{ valores_optimos.temperatura_maxima }}°C</span>
-                                    </div>
-                                </div>
-
-                                <!-- Precipitación -->
-                                <div class="text-black space-y-2">
-                                    <strong>Precipitación</strong>
-                                    <div class="ml-8 flex space-x-4 justify-around">
-                                        <span>●<span class="text-black font-bold">Mín</span>: {{ valores_optimos.precipitacion_minima }}mm</span>
-                                        <span>●<span class="text-black font-bold">Máx</span>: {{ valores_optimos.precipitacion_maxima }}mm</span>
-                                    </div>
-                                </div>
-
-                        </div>
+            <!-- Columna derecha -->
+            <div class="w-1/2 px-8 mb-6 min-w-0">
+                <h3 class="text-2xl text-black text-center font-semibold mb-6">Valores Óptimos para el Cultivo</h3>
+                <div class="bg-gray-50 border border-black rounded-lg shadow-xl hover:shadow-2xl px-8 py-6 space-y-6 text-gray-700 overflow-visible">
+                    <!-- Humedad -->
+                    <div class="text-black space-y-4">
+                        <strong>Humedad</strong>
+                        <div class="ml-8 flex space-x-8 justify-around">
+                            <span>●<span class="text-black font-bold">Mín</span>: {{ valores_optimos.humedad_minima }}%</span>
+                            <span>●<span class="text-black font-bold">Máx</span>: {{ valores_optimos.humedad_maxima }}%</span>
                         </div>
                     </div>
 
+                    <!-- Temperatura -->
+                    <div class="text-black space-y-8">
+                        <strong>Temperatura</strong>
+                        <div class="ml-8 flex space-x-8 justify-around">
+                            <span>●<span class="text-black font-bold">Mín</span>: {{ valores_optimos.temperatura_minima }}°C</span>
+                            <span>●<span class="text-black font-bold">Máx</span>: {{ valores_optimos.temperatura_maxima }}°C</span>
+                        </div>
+                    </div>
 
-
-        <!-- Botón para realizar una nueva simulación -->
-        <div class="mt-4 text-center">
-            <a href="{% url 'realizar_simulacion' %}" class="inline-block bg-blue-500  text-white font-semibold px-48 py-3 text-lg rounded-xl transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 hover:shadow-lg">
-                Volver a realizar una simulación
-            </a>
+                    <!-- Precipitación -->
+                    <div class="text-black space-y-2">
+                        <strong>Precipitación</strong>
+                        <div class="ml-8 flex space-x-4 justify-around">
+                            <span>●<span class="text-black font-bold">Mín</span>: {{ valores_optimos.precipitacion_minima }}mm</span>
+                            <span>●<span class="text-black font-bold">Máx</span>: {{ valores_optimos.precipitacion_maxima }}mm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+
+
+            <!-- Botón centrado -->
+            <div class="flex justify-center items-center w-full absolute left-1/2 transform -translate-x-1/2">
+                <a href="{% url 'realizar_simulacion' %}" class="inline-block bg-blue-500 text-white font-semibold px-12 py-3 text-lg rounded-xl transition-all duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 hover:shadow-lg">
+                    Volver a realizar una simulación
+                </a>
+            </div>
+
     </div>
 </body>
 </html>
