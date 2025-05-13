@@ -21,45 +21,47 @@
                     Cerrar sesión
                 </button>
             </form>
-
         </div>
 
-        <h1 class="text-5xl font-extrabold text-center mb-10 mt-6  text-green-800 tracking-wide drop-shadow-md">{{ pregunta.titulo }}</h1>
-          <div class="bg-[#e0e0e0] p-4  rounded-lg shadow-xl hover:shadow-2xl transition-all">
+        <h1 class="text-5xl font-extrabold text-center mb-10 mt-6 text-green-800 tracking-wide drop-shadow-md">{{ pregunta.titulo }}</h1>
+
+        <div class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
             <p class="text-lg text-black mb-2">{{ pregunta.contenido }}</p>
-            <p class="text-sm text-gray-600 "><em class="text-gray-800">Pregunta de: <span class="text-black font-extrabold">{{ pregunta.usuario.username }}</span> - {{ pregunta.creado }}</em> </p>
-          </div>
+            <p class="text-sm text-gray-600">
+                <em class="text-gray-800">Pregunta de: <span class="text-black font-extrabold">{{ pregunta.usuario.username }}</span> - {{ pregunta.creado }}</em>
+            </p>
+        </div>
 
-    <h2 class="text-3xl text-black font-bold  mt-6 mb-4">Respuestas</h2>
-     <ul class="space-y-4 ">
-        {% for respuesta in respuestas %}
-            <li class=" bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
+        <h2 class="text-3xl text-black font-bold mt-6 mb-4">Respuestas</h2>
+
+        <ul class="space-y-4">
+            {% for respuesta in respuestas %}
+                <li class="bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
                     <p class="text-lg text-black mb-2">{{ respuesta.contenido }}</p>
-                   <p class="text-sm text-black"><em class="text-gray-800">Respondido por: <span class="text-black font-extrabold">{{ pregunta.usuario.username }}</span> - {{ respuesta.creado }}</em></p>
-            </li>
-        {% empty %}
-            <li class="text-black">No hay respuestas aún.</li>
-        {% endfor %}
-     </ul>
+                    <p class="text-sm text-black">
+                        <em class="text-gray-800">Respondido por: <span class="text-black font-extrabold">{{ respuesta.usuario.username }}</span> - {{ respuesta.creado }}</em>
+                    </p>
+                </li>
+            {% empty %}
+                <li class="text-black">No hay respuestas aún.</li>
+            {% endfor %}
+        </ul>
 
+        <h3 class="text-3xl text-black font-bold mt-8 mb-4">Escribir una respuesta</h3>
 
-        <h3 class="text-3xl text-black font-bold  mt-8 mb-4">Escribir una respuesta</h3>
-       <form method="post" class="text-2xl text-black font-semibold  mt-8 mb-12 bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
+        <form method="post" class="text-2xl text-black font-semibold mt-8 mb-12 bg-[#e0e0e0] p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all">
             {% csrf_token %}
-
             <div class="space-y-4">
                 {{ form.as_p }}
             </div>
-            <button type="submit" class="block mx-auto bg-green-500 text-white font-semibold px-48 py-2 rounded-lg hover:bg-green-700 hover:scale-105 transition-all duration-300 ease-in-out shadow-md  mt-2">
+            <button type="submit" class="block mx-auto bg-green-500 text-white font-semibold px-48 py-2 rounded-lg hover:bg-green-700 hover:scale-105 transition-all duration-300 ease-in-out shadow-md mt-2">
                 Responder
             </button>
         </form>
-
     </div>
 
     <style>
         input[type="text"], textarea {
-
             border: 1px solid #D1D5DB;
             border-radius: 0.5rem;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -73,11 +75,12 @@
             border-color: #3B82F6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
         }
-         form p label {
-        display: block;
-        margin-bottom: .75rem;
-        font-size: 1.5rem;
-    }
+
+        form p label {
+            display: block;
+            margin-bottom: .75rem;
+            font-size: 1.5rem;
+        }
     </style>
 </body>
 </html>
