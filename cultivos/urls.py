@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView 
 from .views import home, registrarse, login_vista, admin_campos, admin_cultivos
-from .views import admin_plagas, admin_planificaciones, admin_pesticidas, admin_fertilizantes
+from .views import admin_plagas, admin_planificaciones, admin_pesticidas, admin_fertilizantes, reset_password_by_username
 
 
 urlpatterns = [
@@ -15,5 +15,6 @@ urlpatterns = [
     path('admin_planificaciones/', admin_planificaciones, name='admin_planificaciones'),
     path('admin_pesticidas/', admin_pesticidas, name='admin_pesticidas'),
     path('admin_fertilizantes/', admin_fertilizantes, name='admin_fertilizantes'),
+    path("reset_password/", reset_password_by_username, name="reset_password_by_username"),
     
 ]

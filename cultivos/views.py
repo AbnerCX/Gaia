@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 from .models import Campo, Cultivo, Plagas, PlanificacionCultivo, Pesticidas, Fertilizantes
-from .forms import CampoForm, CultivoForm, PlagasForm, PlanificacionCultivoForm, PesticidaForm, FertilizanteForm
+from .forms import CampoForm, CultivoForm, PlagasForm, PlanificacionCultivoForm, PesticidaForm, FertilizanteForm, UsernamePasswordResetForm
 
 def home(request):
     return render(request, 'home.html')
@@ -312,3 +314,23 @@ def admin_fertilizantes(request):
         'editing': editing,
         'fertilizante_a_editar': fertilizante_a_editar,
     })
+
+def reset_password_by_username(request):
+    if request.method == "POST":
+        form = UsernamePasswordResetForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            new_password = form.cleaned_data["new_password"]
+
+            try:
+                user = User.objects.get(username=username)
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, "La contraseña ha sido restablecida con éxito.")
+                return redirect("login")  # Cambia según tu ruta de login
+            except User.DoesNotExist:
+                form.add_error("username", "El usuario no existe.")
+    else:
+        form = UsernamePasswordResetForm()
+
+    return render(request, "reset_password_by_username.html", {"form": form})

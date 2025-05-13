@@ -76,5 +76,20 @@ class FertilizanteForm(forms.ModelForm):
             # Filtrar los campos relacionados con el usuario actual
             self.fields['campo'].queryset = Campo.objects.filter(usuario=user)
 
+class UsernamePasswordResetForm(forms.Form):
+    username = forms.CharField(label="Nombre de usuario", max_length=150)
+    new_password = forms.CharField(label="Nueva contraseña", widget=forms.PasswordInput)
+    confirm_password = forms.CharField(label="Confirmar contraseña", widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get("new_password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if new_password != confirm_password:
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+
+        return cleaned_data
+
 
 
