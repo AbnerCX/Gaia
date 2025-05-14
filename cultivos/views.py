@@ -327,10 +327,12 @@ def reset_password_by_username(request):
                 user.set_password(new_password)
                 user.save()
                 messages.success(request, "La contraseña ha sido restablecida con éxito.")
-                return redirect("login")  # Cambia según tu ruta de login
+                # 👇 Ya no rediriges al login, solo se muestra el mensaje en el mismo template
+                form = UsernamePasswordResetForm()  # Limpia el formulario
             except User.DoesNotExist:
                 form.add_error("username", "El usuario no existe.")
     else:
         form = UsernamePasswordResetForm()
 
     return render(request, "reset_password_by_username.html", {"form": form})
+
